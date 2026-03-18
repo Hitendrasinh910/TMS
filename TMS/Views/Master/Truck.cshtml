@@ -1,0 +1,68 @@
+﻿@{
+    ViewBag.Title = "Truck Master";
+}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Truck Master</h4>
+                <a data-bs-toggle="modal" data-bs-target="#addModal" class="btn btn-primary btn-sm">Add Truck</a>
+            </div>
+            <div class="table-responsive">
+                <table id="truckList" class="display table-hover table-striped w-100">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>Truck Number</th>
+                            <th>PAN Card Holder</th>
+                            <th>PAN No</th>
+                            <th style="width:2%;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tblBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Add New Truck</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="entryForm" autocomplete="off">
+                    <input type="hidden" id="hdnId" value="0" />
+                    <div class="row g-3">
+                        <div class="col-md-12">
+                            <label class="form-label">Truck Number <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="txtTruckNumber" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">PAN Card Holder</label>
+                            <input type="text" class="form-control" id="txtPanHolder">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">PAN No</label>
+                            <input type="text" class="form-control" id="txtPanNo">
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label">Remarks</label>
+                            <textarea class="form-control" id="txtRemarks" rows="2"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary" id="btnSave">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/TMSJs/Master/truck.js"></script>
+}

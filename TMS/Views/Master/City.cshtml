@@ -1,0 +1,61 @@
+﻿@{
+    ViewBag.Title = "City Master";
+}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">City Master</h4>
+                <a data-bs-toggle="modal" data-bs-target="#addModal" class="btn btn-primary btn-sm">Add City</a>
+            </div>
+            <div class="table-responsive">
+                <table id="cityList" class="display table-hover table-striped w-100">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>City Name</th>
+                            <th>State Name</th>
+                            <th style="width:2%;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tblBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Add New City</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="entryForm" autocomplete="off">
+                    <input type="hidden" id="hdnId" value="0" />
+                    <div class="row g-3">
+                        <div class="col-md-12">
+                            <label class="form-label">Select State <span class="text-danger">*</span></label>
+                            <select class="form-select" id="ddlState" required>
+                                <option value="">-- Select State --</option>
+                            </select>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label">City Name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="txtCityName" placeholder="Enter City Name" required>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary" id="btnSave">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/TMSJs/Master/city.js"></script>
+}

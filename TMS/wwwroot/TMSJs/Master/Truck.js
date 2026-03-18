@@ -1,0 +1,83 @@
+﻿const API = "/api/master/truck";
+let entryModal = null;
+
+const DOM = {
+    id: () => document.getElementById("hdnId"),
+    truckNo: () => document.getElementById("txtTruckNumber"),
+    panHolder: () => document.getElementById("txtPanHolder"),
+    panNo: () => document.getElementById("txtPanNo"),
+    remarks: () => document.getElementById("txtRemarks"),
+    save: () => document.getElementById("btnSave"),
+    tbody: () => document.getElementById("tblBody"),
+    modal: () => document.getElementById("addModal"),
+    table: () => document.getElementById("truckList")
+};
+
+document.addEventListener("DOMContentLoaded", async () => {
+    await bindTable();
+    entryModal = new bootstrap.Modal(DOM.modal(), { backdrop: "static" });
+    DOM.modal().addEventListener("hidden.bs.modal", clearForm);
+    DOM.save().addEventListener("click", saveData);
+});
+
+async function bindTable() {
+    const res = await apiFetch(`${API}/get-all`);
+    const json = await res.json();
+    if ($.fn.DataTable.isDataTable(DOM.table())) $(DOM.table()).DataTable().destroy();
+    DOM.tbody().innerHTML = "";
+
+    json.data.forEach(d => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td class="fw-semibold">${escapeHtml(d.truckNumber)}</td>
+            <td>${escapeHtml(d.panCardHolder || '-')}</td>
+            <td>${escapeHtml(d.panCardNo || '-')}</td>
+            <td class="text-center">
+                <a href="javascript:void(0);" onclick="editEntry(${d.idTruck})" class="btn btn-primary btn-xs sharp me-1"><i class="fa fa-pencil"></i></a>
+                <a href="javascript:void(0);" onclick="deleteEntry(${d.idTruck})" class="btn btn-danger btn-xs sharp"><i class="fa fa-trash"></i></a>
+            </td>`;
+        DOM.tbody().appendChild(tr);
+    });
+    $(DOM.table()).DataTable();
+}
+
+async function editEntry(id) {
+    const res = await apiFetch(`${API}/get-by-id/${id}`);
+    const json = await res.json();
+    if (json.success) {
+        DOM.id().value = json.data.idTruck;
+        DOM.truckNo().value = json.data.truckNumber || "";
+        DOM.panHolder().value = json.data.panCardHolder || "";
+        DOM.panNo().value = json.data.panCardNo || "";
+        DOM.remarks().value = json.data.remarks || "";
+        entryModal.show();
+    }
+}
+
+async function deleteEntry(id) {
+    if (!await confirmDelete("Delete this truck?")) return;
+    const res = await apiFetch(`${API}/delete/${id}`, { method: "DELETE" });
+    const json = await res.json();
+    if (json.success) { showToast("success", json.message, "Truck Master"); bindTable(); }
+}
+
+async function saveData() {
+    if (!DOM.truckNo().value.trim()) return showToast("danger", "Truck Number required", "Truck Master");
+
+    const dto = {
+        idTruck: Number(DOM.id().value || 0),
+        truckNumber: DOM.truckNo().value.trim(),
+        panCardHolder: DOM.panHolder().value.trim(),
+        panCardNo: DOM.panNo().value.trim(),
+        remarks: DOM.remarks().value.trim()
+    };
+
+    DOM.save().disabled = true;
+    const res = await apiFetch(`${API}/save`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(dto) });
+    const json = await res.json();
+
+    if (json.success) { showToast("success", json.message, "Truck Master"); entryModal.hide(); clearForm(); bindTable(); }
+    DOM.save().disabled = false;
+}
+
+function clearForm() { DOM.id().value = 0; DOM.truckNo().value = ""; DOM.panHolder().value = ""; DOM.panNo().value = ""; DOM.remarks().value = ""; }

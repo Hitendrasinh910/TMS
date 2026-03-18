@@ -1,0 +1,79 @@
+﻿@{
+    ViewBag.Title = "Driver Master";
+}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Driver Master</h4>
+                <a data-bs-toggle="modal" data-bs-target="#addModal" class="btn btn-primary btn-sm">Add Driver</a>
+            </div>
+            <div class="table-responsive">
+                <table id="driverList" class="display table-hover table-striped w-100">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>Driver Name</th>
+                            <th>Contact No</th>
+                            <th>License No</th>
+                            <th>DL Valid Till</th>
+                            <th style="width:2%;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tblBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Add New Driver</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="entryForm" autocomplete="off">
+                    <input type="hidden" id="hdnId" value="0" />
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Driver Name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="txtDriverName" placeholder="Enter Driver Name" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Contact No <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="txtContactNo" placeholder="Primary Contact" required>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label class="form-label">Address</label>
+                            <textarea class="form-control" id="txtAddress" rows="2" placeholder="Driver's Address"></textarea>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">Emergency Contact No</label>
+                            <input type="text" class="form-control" id="txtEmergencyContactNo" placeholder="Emergency No">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Driving Licence No</label>
+                            <input type="text" class="form-control" id="txtDLNo" placeholder="Licence Number">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">DL Valid Till</label>
+                            <input type="date" class="form-control" id="txtDLValidTill">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary" id="btnSave">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/TMSJs/Master/driver.js"></script>
+}

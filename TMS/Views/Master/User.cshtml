@@ -1,0 +1,111 @@
+﻿@{
+    ViewBag.Title = "User Master";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h4 class="card-title mb-0">User Master</h4>
+                <button type="button" class="btn btn-primary btn-sm"
+                        data-bs-toggle="modal" data-bs-target="#addModal">
+                    <i class="fa fa-plus me-1"></i> Add User
+                </button>
+            </div>
+
+            <div class="table-responsive">  
+                <table id="userList" class="display table-hover table-striped w-100">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>User Name</th>
+                            <th>Full Name</th>
+                            <th>User Type</th>
+                            <th>Contact No</th>
+                            <th style="width:5%;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tblBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h3 class="modal-title">User Details</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <form id="entryForm" autocomplete="off">
+                    <input type="hidden" id="hdnId" value="0" />
+
+                    <div class="row g-3">
+                        <div class="col-md-12">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="txtFullName"
+                                   placeholder="Enter Full Name" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">User Type</label>
+                            <select class="form-control default-select" id="ddlUserType" required>
+                                <option value="">-- Select --</option>
+                                <option value="Admin">Admin</option>
+                                <option value="Standard">Standard</option>
+                                <option value="Viewer">Viewer</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Contact No</label>
+                            <input type="text" class="form-control" id="txtContactNo"
+                                   placeholder="Mobile Number">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">User Name</label>
+                            <input type="text" class="form-control" id="txtUserName"
+                                   placeholder="Login ID" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Password</label>
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="txtPassword"
+                                       placeholder="Password" required>
+                                <button class="btn btn-outline-light" type="button" id="btnTogglePassword">
+                                    <i class="fa fa-eye"></i>
+                                </button>
+                                <button class="btn btn-outline-primary" type="button" id="btnGeneratePassword" title="Auto Generate">
+                                    <i class="fa fa-sync-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label class="form-label">Email Address</label>
+                            <input type="email" class="form-control" id="txtEmail"
+                                   placeholder="example@domain.com">
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="btnSave">Save User</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/TMSJs/Master/user.js" asp-append-version="true"></script>
+}
