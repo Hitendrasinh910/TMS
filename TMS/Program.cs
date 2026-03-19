@@ -50,11 +50,21 @@ builder.Services.AddScoped<IDapperHelper, DapperHelper>();
 // Repositories
 builder.Services.AddScoped<MasterUserRepo>();
 builder.Services.AddScoped<MasterCountryRepo>();
+builder.Services.AddScoped<MasterStateRepo>();
+builder.Services.AddScoped<MasterCityRepo>();
+builder.Services.AddScoped<MasterPartyAccountRepo>();
+builder.Services.AddScoped<MasterTruckRepo>();
+builder.Services.AddScoped<MasterDriverRepo>();
 // Add other repos here...
 
 // Services
 builder.Services.AddScoped<MasterUserService>();
 builder.Services.AddScoped<MasterCountryService>();
+builder.Services.AddScoped<MasterStateService>();
+builder.Services.AddScoped<MasterCityService>();
+builder.Services.AddScoped<MasterPartyAccountService>();
+builder.Services.AddScoped<MasterTruckService>();
+builder.Services.AddScoped<MasterDriverService>();
 // Add other services here...
 
 // ---------------------------------

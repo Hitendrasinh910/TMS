@@ -87,7 +87,7 @@ async function bindTable() {
                 <td class="fw-semibold">
                     <h6 class="w-space-no mb-0 fs-14 font-w600"> ${escapeHtml(d.state)} </h6>
                 </td>
-                <td>${escapeHtml(d.countryName || d.idCountry)}</td>
+                <td>${escapeHtml(d.countryName || '')}</td>
                 <td>${formatDateTime(d.e_Date)}</td>
                 <td class="text-center">
                     <div class="d-flex">

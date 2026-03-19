@@ -8,7 +8,7 @@ using TMS.Services;
 
 namespace TMS.Controllers.API
 {
-    //[Authorize]
+    [Authorize]
     [ApiController]
     [Route("api/master/country")]
     public class MasterCountryController : ControllerBase

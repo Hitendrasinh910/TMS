@@ -38,7 +38,20 @@ async function bindTable() {
             </td>`;
         DOM.tbody().appendChild(tr);
     });
-    $(DOM.table()).DataTable();
+    //$(DOM.table()).DataTable();
+    // Re-initialize DataTable
+        $(DOM.table()).DataTable({
+            lengthChange: true,
+            searching: true,
+            pageLength: 10,
+            ordering: false,
+            language: {
+                paginate: {
+                    next: '<i class="fa fa-angle-double-right" aria-hidden="true"></i>',
+                    previous: '<i class="fa fa-angle-double-left" aria-hidden="true"></i>'
+                }
+            }
+        });
 }
 
 async function editEntry(id) {

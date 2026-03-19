@@ -7,6 +7,6 @@ namespace TMS.Models.Master
         public int IDCity { get; set; }
         public int IDState { get; set; }
         public string City { get; set; }
-        public string? State { get; set; }
+        public string? StateName { get; set; }  // Changed due to mapping error
     }
 }

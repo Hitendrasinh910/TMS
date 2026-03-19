@@ -46,12 +46,25 @@ async function bindTable() {
             const tr = document.createElement("tr");
             tr.innerHTML = `
                 <td class="fw-semibold">${escapeHtml(d.city)}</td>
-                <td>${escapeHtml(d.stateName || d.idState)}</td>
+                <td>${escapeHtml(d.stateName || '')}</td>
                 <td class="text-center">
                     <a href="javascript:void(0);" onclick="editEntry(${d.idCity})" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fa fa-pencil"></i></a>
                     <a href="javascript:void(0);" onclick="deleteEntry(${d.idCity})" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
                 </td>`;
             DOM.tbody().appendChild(tr);
+        });
+        // Re-initialize DataTable
+        $(DOM.table()).DataTable({
+            lengthChange: true,
+            searching: true,
+            pageLength: 10,
+            ordering: false,
+            language: {
+                paginate: {
+                    next: '<i class="fa fa-angle-double-right" aria-hidden="true"></i>',
+                    previous: '<i class="fa fa-angle-double-left" aria-hidden="true"></i>'
+                }
+            }
         });
         $(DOM.table()).DataTable();
     } catch (err) { console.error(err); }
