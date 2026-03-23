@@ -33,8 +33,10 @@ async function bindTable() {
             <td>${escapeHtml(d.panCardHolder || '-')}</td>
             <td>${escapeHtml(d.panCardNo || '-')}</td>
             <td class="text-center">
-                <a href="javascript:void(0);" onclick="editEntry(${d.idTruck})" class="btn btn-primary btn-xs sharp me-1"><i class="fa fa-pencil"></i></a>
-                <a href="javascript:void(0);" onclick="deleteEntry(${d.idTruck})" class="btn btn-danger btn-xs sharp"><i class="fa fa-trash"></i></a>
+                <div class="d-flex">
+                    <a href="javascript:void(0);" onclick="editEntry(${d.idTruck})" class="btn btn-primary btn-xs sharp me-1"><i class="fa fa-pencil"></i></a>
+                    <a href="javascript:void(0);" onclick="deleteEntry(${d.idTruck})" class="btn btn-danger btn-xs sharp"><i class="fa fa-trash"></i></a>
+                </div>
             </td>`;
         DOM.tbody().appendChild(tr);
     });

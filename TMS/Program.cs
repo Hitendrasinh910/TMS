@@ -55,6 +55,11 @@ builder.Services.AddScoped<MasterCityRepo>();
 builder.Services.AddScoped<MasterPartyAccountRepo>();
 builder.Services.AddScoped<MasterTruckRepo>();
 builder.Services.AddScoped<MasterDriverRepo>();
+builder.Services.AddScoped<MasterBillToPartyRepo>();
+builder.Services.AddScoped<TransactionLrRepo>();
+builder.Services.AddScoped<TransactionPaymentReceiveRepo>();
+builder.Services.AddScoped<TransactionBillRepo>();
+builder.Services.AddScoped<TransactionChallanRepo>();
 // Add other repos here...
 
 // Services
@@ -65,6 +70,11 @@ builder.Services.AddScoped<MasterCityService>();
 builder.Services.AddScoped<MasterPartyAccountService>();
 builder.Services.AddScoped<MasterTruckService>();
 builder.Services.AddScoped<MasterDriverService>();
+builder.Services.AddScoped<MasterBillToPartyService>();
+builder.Services.AddScoped<TransactionLrService>();
+builder.Services.AddScoped<TransactionPaymentReceiveService>();
+builder.Services.AddScoped<TransactionBillService>();
+builder.Services.AddScoped<TransactionChallanService>();
 // Add other services here...
 
 // ---------------------------------

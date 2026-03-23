@@ -12,6 +12,8 @@ namespace TMS.Models.Master
         public string Address { get; set; }
         public int IDState { get; set; }
         public int IDCity { get; set; }
+        public string? StateName { get; set; }                    // Get State and City name
+        public string? CityName { get; set; }
         public string ContactNo1 { get; set; }
         public string ContactNo2 { get; set; }
         public string Email { get; set; }

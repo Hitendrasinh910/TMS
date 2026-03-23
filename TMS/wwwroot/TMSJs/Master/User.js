@@ -101,6 +101,7 @@ async function bindTable() {
         });
     } catch (err) {
         console.error(err);
+
         showToast("danger", "Failed to load data", "User Master");
     }
 }

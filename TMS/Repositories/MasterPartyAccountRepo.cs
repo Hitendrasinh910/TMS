@@ -29,6 +29,32 @@ namespace TMS.Repositories
             }
         }
 
+        public async Task<IEnumerable<MasterAccountType>> GetAllAccountTypeAsync()
+        {
+            try
+            {
+                return await _dapper.QueryAsync<MasterAccountType>("usp_Master_AccountType_Select");
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex, "Error in PartyAccountRepo.GetAllAccountTypeAsync");
+                return Enumerable.Empty<MasterAccountType>();
+            }
+        }
+
+        public async Task<IEnumerable<MasterBalanceType>> GetAllBalanceTypeAsync()
+        {
+            try
+            {
+                return await _dapper.QueryAsync<MasterBalanceType>("usp_Master_BalanceType_Select");
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex, "Error in PartyAccountRepo.GetAllBalanceTypeAsync");
+                return Enumerable.Empty<MasterBalanceType>();
+            }
+        }
+
         public async Task<MasterPartyAccount?> GetByIdAsync(int idPartyAccount)
         {
             try

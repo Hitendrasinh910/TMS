@@ -27,6 +27,20 @@ namespace TMS.Controllers.API
             return Ok(ApiResponse<IEnumerable<MasterPartyAccount>>.SuccessResponse("Party accounts loaded successfully", accounts));
         }
 
+        [HttpGet("get-all-account-type")]
+        public async Task<IActionResult> GetAllAccountType()
+        {
+            var accountTypes = await _partyAccountService.GetAllAccountTypeAsync();
+            return Ok(ApiResponse<IEnumerable<MasterAccountType>>.SuccessResponse("AccountType loaded successfully", accountTypes));
+        }
+
+        [HttpGet("get-all-balance-type")]
+        public async Task<IActionResult> GetAllBalanceType()
+        {
+            var balanceTypes = await _partyAccountService.GetAllBalanceTypeAsync();
+            return Ok(ApiResponse<IEnumerable<MasterBalanceType>>.SuccessResponse("BalanceType loaded successfully", balanceTypes));
+        }
+
         [HttpGet("get-by-id/{id:int}")]
         public async Task<IActionResult> GetById(int id)
         {

@@ -1,0 +1,196 @@
+﻿@{
+    ViewBag.Title = "Lorry Receipt (LR) Entry";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h4 class="card-title mb-0">L R Details</h4>
+                <div>
+                    <button class="btn btn-primary" id="btnSave"><i class="fa fa-save"></i> Save / Update</button>
+                    <a href="/Transaction/LRList" class="btn btn-danger"><i class="fa fa-times"></i> Close</a>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <form id="lrForm" autocomplete="off">
+                    <input type="hidden" id="hdnId" value="0" />
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6 border-end pe-4">
+                            <div class="row g-2">
+                                <div class="col-md-6">
+                                    <label class="form-label">L.R No</label>
+                                    <input type="text" class="form-control bg-light" id="txtLRNo" readonly placeholder="Auto Generated">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Date <span class="text-danger">*</span></label>
+                                    <input type="date" class="form-control" id="txtLRDate" required>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <label class="form-label">Consignor <span class="text-danger">*</span></label>
+                                    <select class="form-select" id="ddlConsignor" required></select>
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="form-label">Address</label>
+                                    <textarea class="form-control" id="txtConsignorAddress" rows="2" readonly></textarea>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">From State</label>
+                                    <select class="form-select" id="ddlFromState" disabled></select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">From City</label>
+                                    <select class="form-select" id="ddlFromCity" disabled></select>
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="form-label">Invoice No</label>
+                                    <input type="text" class="form-control" id="txtInvoiceNo">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 ps-4">
+                            <div class="row g-2">
+                                <div class="col-md-12">
+                                    <label class="form-label">Truck No</label>
+                                    <select class="form-select" id="ddlTruck"></select>
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="form-label">Consignee <span class="text-danger">*</span></label>
+                                    <select class="form-select" id="ddlConsignee" required></select>
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="form-label">Address</label>
+                                    <textarea class="form-control" id="txtConsigneeAddress" rows="2" readonly></textarea>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">To State</label>
+                                    <select class="form-select" id="ddlToState" disabled></select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">To City</label>
+                                    <select class="form-select" id="ddlToCity" disabled></select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Invoice Date</label>
+                                    <input type="date" class="form-control" id="txtInvoiceDate">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">GST Paid By</label>
+                                    <select class="form-select" id="ddlGSTPaidBy">
+                                        <option value="CONSIGNEE/CONSIGNOR">CONSIGNEE/CONSIGNOR</option>
+                                        <option value="TRANSPORTER">TRANSPORTER</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Select To</label>
+                                    <select class="form-select" id="ddlSelectTo">
+                                        <option value="PAY">PAY</option>
+                                        <option value="TO PAY">TO PAY</option>
+                                        <option value="BILLED">BILLED</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">E Way Bill No</label>
+                                    <input type="text" class="form-control" id="txtEWayBillNo" value="AS PER INVOICE">
+                                </div>
+
+                                <div class="col-md-12 mt-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="chkChangeBillTo">
+                                        <label class="form-check-label fw-bold" for="chkChangeBillTo">Do You Want To change Bill To Party?</label>
+                                    </div>
+                                    <select class="form-select mt-2" id="ddlBillTo" disabled></select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h5 class="mt-4 mb-2 border-bottom pb-2">Details</h5>
+                    <div class="table-responsive mb-4">
+                        <table class="table table-bordered table-sm" id="tblItems">
+                            <thead class="table-primary text-center align-middle">
+                                <tr>
+                                    <th style="width: 15%">Method Of Packing</th>
+                                    <th style="width: 25%">Description</th>
+                                    <th style="width: 15%">Packages</th>
+                                    <th style="width: 10%">Freight On</th>
+                                    <th style="width: 10%">Weight</th>
+                                    <th style="width: 10%">Rate</th>
+                                    <th style="width: 10%">Amount</th>
+                                    <th style="width: 5%">Act</th>
+                                </tr>
+                            </thead>
+                            <tbody id="gridBody">
+                            </tbody>
+                            <tfoot class="bg-light">
+                                <tr>
+                                    <td><input type="text" class="form-control form-control-sm" id="inPacking"></td>
+                                    <td><input type="text" class="form-control form-control-sm" id="inDesc"></td>
+                                    <td><input type="text" class="form-control form-control-sm" id="inPackages"></td>
+                                    <td>
+                                        <select class="form-select form-select-sm" id="inFreightOn">
+                                            <option value="Weight">Weight</option>
+                                            <option value="Fixed">Fixed</option>
+                                        </select>
+                                    </td>
+                                    <td><input type="number" class="form-control form-control-sm text-end calc-source" id="inWeight" value="0.00"></td>
+                                    <td><input type="number" class="form-control form-control-sm text-end calc-source" id="inRate" value="0.00"></td>
+                                    <td><input type="number" class="form-control form-control-sm text-end bg-white" id="inAmount" readonly value="0.00"></td>
+                                    <td class="text-center">
+                                        <button type="button" class="btn btn-success btn-sm" id="btnAddItem"><i class="fa fa-plus"></i></button>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-md-8">
+                            <div class="row g-2">
+                                <label class="col-sm-2 col-form-label text-end">Declared Value :</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="txtDeclaredValue" value="AS PER INVOICE">
+                                </div>
+                                <label class="col-sm-2 col-form-label text-end mt-2">Remarks :</label>
+                                <div class="col-sm-10 mt-2">
+                                    <textarea class="form-control" id="txtRemarks" rows="3"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <table class="table table-borderless table-sm">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-end align-middle fw-bold w-50">Freight :</td>
+                                        <td><input type="number" class="form-control text-end bg-light fw-bold calc-total" id="txtFreight" readonly value="0.00"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-end align-middle fw-bold">Hamali :</td>
+                                        <td><input type="number" class="form-control text-end calc-total" id="txtHamali" value="0.00"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-end align-middle fw-bold">Other Charge :</td>
+                                        <td><input type="number" class="form-control text-end calc-total" id="txtOtherCharge" value="0.00"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-end align-middle fw-bold text-danger fs-5">Total :</td>
+                                        <td><input type="number" class="form-control text-end bg-light fw-bold text-danger fs-5" id="txtTotalAmt" readonly value="0.00"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/TMSJs/Transaction/LREntry.js" asp-append-version="true"></script>
+}

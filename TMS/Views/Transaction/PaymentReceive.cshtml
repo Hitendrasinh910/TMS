@@ -1,0 +1,106 @@
+﻿@{
+    ViewBag.Title = "Payment Receive";
+}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h4 class="card-title mb-0">Payment Receive List</h4>
+                <a data-bs-toggle="modal" data-bs-target="#addModal" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Add Payment</a>
+            </div>
+            <div class="table-responsive">
+                <table id="paymentList" class="display table-hover table-striped w-100">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>Receipt No</th>
+                            <th>Date</th>
+                            <th>Party Name</th>
+                            <th>Mode</th>
+                            <th>Received</th>
+                            <th style="width:5%;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tblBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Payment Receive</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="entryForm" autocomplete="off">
+                    <input type="hidden" id="hdnId" value="0" />
+
+                    @* <div class="card shadow-sm p-3 mb-0 bg-white rounded">
+                        <h6 class="border-bottom pb-2 mb-3 text-secondary">Payment Details</h6> *@
+                        <div class="row g-3">
+
+                            <label class="col-sm-3 col-form-label">Receipt No :</label>
+                            <div class="col-sm-4"><input type="text" class="form-control bg-light" id="txtReceiptNo" readonly placeholder="Auto"></div>
+
+                            <label class="col-sm-2 col-form-label">Date :</label>
+                            <div class="col-sm-3"><input type="date" class="form-control" id="txtDate" required></div>
+
+                            <label class="col-sm-3 col-form-label">Type :</label>
+                            <div class="col-sm-9">
+                                <select class="form-select" id="ddlType">
+                                    <option value="1">AGAINST INVOICE</option>
+                                    <option value="2">ADVANCE</option>
+                                </select>
+                            </div>
+
+                            <label class="col-sm-3 col-form-label">Select Party :</label>
+                            <div class="col-sm-9"><select class="form-select" id="ddlParty" required></select></div>
+
+                            <label class="col-sm-3 col-form-label">Select Bill No :</label>
+                            <div class="col-sm-9"><select class="form-select" id="ddlBillNo"><option value="">-- Optional --</option></select></div>
+
+                            <label class="col-sm-3 col-form-label">Bill Amount :</label>
+                            <div class="col-sm-4"><input type="number" class="form-control bg-light " id="txtBillAmt" readonly value="0.00"></div>
+
+                            <label class="col-sm-2 col-form-label">Outstanding :</label>
+                            <div class="col-sm-3"><input type="number" class="form-control bg-light " id="txtOutstanding" readonly value="0.00"></div>
+
+                            <label class="col-sm-3 col-form-label ">Payment Mode :</label>
+                            <div class="col-sm-9">
+                                <select class="form-select" id="ddlMode">
+                                    <option value="NEFT/RTGS">NEFT/RTGS</option>
+                                    <option value="CHEQUE">CHEQUE</option>
+                                    <option value="CASH">CASH</option>
+                                </select>
+                            </div>
+
+                            <label class="col-sm-3 col-form-label ">Amount Received :</label>
+                            <div class="col-sm-9"><input type="number" class="form-control  calc" id="txtAmtReceived" value="0.00"></div>
+
+                            <label class="col-sm-3 col-form-label ">TDS :</label>
+                            <div class="col-sm-9"><input type="number" class="form-control  calc" id="txtTDS" value="0.00"></div>
+
+                            <label class="col-sm-3 col-form-label ">Balance :</label>
+                            <div class="col-sm-9"><input type="number" class="form-control bg-light  fw-bold" id="txtBalance" readonly value="0.00"></div>
+
+                            <label class="col-sm-3 col-form-label  align-self-start mt-2">Remarks :</label>
+                            <div class="col-sm-9 mt-2"><textarea class="form-control" id="txtRemarks" rows="4"></textarea></div>
+
+                        </div>
+                    @* </div> *@
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success" id="btnSave"><i class="fa fa-save"></i> Update</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/TMSJs/Transaction/paymentReceive.js" asp-append-version="true"></script>
+}

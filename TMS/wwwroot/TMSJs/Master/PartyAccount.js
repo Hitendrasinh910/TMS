@@ -65,8 +65,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 async function loadDropdowns() {
     try {
         const [accTypeRes, balTypeRes, stateRes, cityRes] = await Promise.all([
-            apiFetch(`${API_ACCOUNTTYPE}/get-all`).then(r => r.json()),
-            apiFetch(`${API_BALANCETYPE}/get-all`).then(r => r.json()),
+            apiFetch(`${API}/get-all-account-type`).then(r => r.json()),
+            apiFetch(`${API}/get-all-balance-type`).then(r => r.json()),
             apiFetch(`${API_STATE}/get-all`).then(r => r.json()),
             apiFetch(`${API_CITY}/get-all`).then(r => r.json())
         ]);
@@ -122,7 +122,7 @@ async function bindTable() {
                 <td class="fw-semibold">${escapeHtml(d.partyCode || '-')}</td>
                 <td><h6 class="w-space-no mb-0 fs-14 font-w600">${escapeHtml(d.partyName)}</h6></td>
                 <td>${escapeHtml(d.contactNo1 || '-')}</td>
-                <td>${escapeHtml(d.city || d.idCity || '-')}</td>
+                <td>${escapeHtml(d.cityName || '-')},${escapeHtml(d.stateName || '-')}</td>
                 <td>₹ ${balanceDisplay}</td>
                 <td class="text-center">
                     <div class="d-flex">

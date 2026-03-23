@@ -22,6 +22,7 @@
     =============================== */
     const masterMenus = [
         "menuMasterTitle",
+        "menuTransactionTitle",
         "menuCompany",
         "menuLocation",
         "menuDivision",

@@ -48,9 +48,11 @@ async function bindTable() {
                 <td class="fw-semibold">${escapeHtml(d.city)}</td>
                 <td>${escapeHtml(d.stateName || '')}</td>
                 <td class="text-center">
-                    <a href="javascript:void(0);" onclick="editEntry(${d.idCity})" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fa fa-pencil"></i></a>
-                    <a href="javascript:void(0);" onclick="deleteEntry(${d.idCity})" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
-                </td>`;
+                    <div class="d-flex">
+                        <a href="javascript:void(0);" onclick="editEntry(${d.idCity})" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fa fa-pencil"></i></a>
+                        <a href="javascript:void(0);" onclick="deleteEntry(${d.idCity})" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
+                    </div>
+                 </td>`;
             DOM.tbody().appendChild(tr);
         });
         // Re-initialize DataTable
