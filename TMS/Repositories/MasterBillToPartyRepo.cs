@@ -30,6 +30,21 @@ namespace TMS.Repositories
             }
         }
 
+        public async Task<int> GetSrNoAsync()
+        {
+            try
+            {
+                // Calls a stored procedure to get Max(SrNo) + 1
+                return await _dapper.QueryFirstOrDefaultAsync<int>("usp_Master_BillToParty_SelectSrNo");
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex, "Error in BillToParty.GetSrNoAsync");
+                // Return 1 as a fallback (assuming it's the first record)
+                return 1;
+            }
+        }
+
         public async Task<MasterBillToParty> GetByIdAsync(int idBillToParty)
         {
             try

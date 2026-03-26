@@ -17,7 +17,14 @@ namespace TMS.Controllers.API
         public MasterBillToPartyController(MasterBillToPartyService billService) => _billService = billService;
 
         [HttpGet("get-all")]
-        public async Task<IActionResult> GetAll() => Ok(ApiResponse<IEnumerable<dynamic>>.SuccessResponse("Loaded", await _billService.GetAllAsync()));
+        public async Task<IActionResult> GetAll() => Ok(ApiResponse<IEnumerable<MasterBillToParty>>.SuccessResponse("Loaded", await _billService.GetAllAsync()));
+
+        [HttpGet("get-sr-no")]
+        public async Task<IActionResult> GetSrNo()
+        {
+            int nextSrNo = await _billService.GetSrNo();
+            return Ok(new { success = true, data = nextSrNo });
+        }
 
         [HttpGet("get-by-id/{id:int}")]
         public async Task<IActionResult> GetById(int id) => Ok(ApiResponse<MasterBillToParty>.SuccessResponse("Loaded", await _billService.GetByIdAsync(id)));

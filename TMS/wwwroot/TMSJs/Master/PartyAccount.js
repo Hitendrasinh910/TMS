@@ -51,13 +51,37 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     entryModal = new bootstrap.Modal(DOM.modal(), { backdrop: "static" });
 
-    DOM.modal().addEventListener("shown.bs.modal", () => {
+    DOM.modal().addEventListener("shown.bs.modal", async () => {
         setTimeout(() => DOM.partyName().focus(), 50);
+
+        // Fetch the next Sr No ONLY if it's a new entry (ID is 0)
+        if (Number(DOM.id().value) === 0) {
+            await fetchNextAccountSrNo();
+        }
     });
 
     DOM.modal().addEventListener("hidden.bs.modal", clearForm);
     DOM.save().addEventListener("click", saveData);
 });
+
+// FETCH NEXT ACCOUNT SR NO
+// ======================================================
+async function fetchNextAccountSrNo() {
+    try {
+        // Adjust this endpoint to match your actual backend API route
+        const res = await apiFetch(`${API}/get-sr-no`);
+        const json = await res.json();
+
+        if (json.success) {
+            // Assuming your API returns the number in json.data
+            DOM.accountSrNo().value = json.data;
+        } else {
+            showToast("warning", "Could not generate Account Sr No", "Party Account");
+        }
+    } catch (err) {
+        console.error("Error fetching Account Sr No:", err);
+    }
+}
 
 // ======================================================
 // LOAD DROPDOWNS

@@ -25,6 +25,7 @@ const DOM = {
 // ======================================================
 document.addEventListener("DOMContentLoaded", async () => {
 
+    await loadDropdown();
     await bindTable();
 
     $('#userList').DataTable({
@@ -60,6 +61,30 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     }
 });
+
+// LOAD DROPDOWNS
+// ======================================================
+async function loadDropdown() {
+    try {
+        const res = await apiFetch(`${API}/get-all-user-type`);
+        const json = await res.json();
+
+        if (json.success && json.data) {
+            let options = '<option value="">-- Select User Type --</option>';
+            json.data.forEach(p => {
+                options += `<option value="${escapeHtml(p.userType)}">${escapeHtml(p.userType)}</option>`;
+            });
+
+            // Populate all 3 dropdowns with the exact same party data
+            DOM.userType().innerHTML = options;
+
+            // Refresh bootstrap select
+            $('#ddlUserType').selectpicker('refresh');
+        }
+    } catch (err) {
+        console.error("Error loading dropdown:", err);
+    }
+}
 
 // ======================================================
 // BIND TABLE

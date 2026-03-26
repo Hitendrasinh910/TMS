@@ -39,6 +39,14 @@ namespace TMS.Controllers.API
             }
         }
 
+        // UserType dropdown
+        [HttpGet("get-all-user-type")]
+        public async Task<IActionResult> GetAllUserType()
+        {
+            var userType = await _userService.GetAllUserTypeAsync();
+            return Ok(ApiResponse<IEnumerable<MasterUserType>>.SuccessResponse("UserType loaded successfully", userType));
+        }
+
         // ---------------------------------------------------------
         // GET USER BY ID
         // ---------------------------------------------------------

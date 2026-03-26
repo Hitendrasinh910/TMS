@@ -10,5 +10,8 @@ namespace TMS.Models.Master
         public int IDConsignee { get; set; }
         public int BillTo { get; set; }
         public string Remarks { get; set; }
+        public string? ConsignorName { get; set; }
+        public string? ConsigneeName { get; set; }
+        public string? BillToName { get; set; }
     }
 }

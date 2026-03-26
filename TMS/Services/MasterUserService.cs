@@ -26,6 +26,9 @@ namespace TMS.Services
         public Task<IEnumerable<MasterUser>> GetAllAsync()
             => _repo.GetAllAsync();
 
+        // GET UserType
+        public async Task<IEnumerable<MasterUserType>> GetAllUserTypeAsync() => await _repo.GetAllUserTypeAsync();  // User Type
+
         // ---------------------------------------------------------
         // GET USER BY ID
         // ---------------------------------------------------------

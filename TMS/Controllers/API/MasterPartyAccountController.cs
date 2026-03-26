@@ -34,6 +34,13 @@ namespace TMS.Controllers.API
             return Ok(ApiResponse<IEnumerable<MasterAccountType>>.SuccessResponse("AccountType loaded successfully", accountTypes));
         }
 
+        [HttpGet("get-sr-no")]
+        public async Task<IActionResult> GetSrNo()
+        {
+            int nextSrNo = await _partyAccountService.GetSrNo();
+            return Ok(new { success = true, data = nextSrNo });
+        }
+
         [HttpGet("get-all-balance-type")]
         public async Task<IActionResult> GetAllBalanceType()
         {

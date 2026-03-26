@@ -36,6 +36,20 @@ namespace TMS.Repositories
             }
         }
 
+        // GET ALL USER Type
+        public async Task<IEnumerable<MasterUserType>> GetAllUserTypeAsync()
+        {
+            try
+            {
+                return await _dapper.QueryAsync<MasterUserType>("usp_Master_UserType_Select");
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex, "Error in MasterUserRepo.GetAllUserTypeAsync");
+                return Enumerable.Empty<MasterUserType>();
+            }
+        }
+
         // ---------------------------------------------------------
         // GET USER BY ID
         // ---------------------------------------------------------
