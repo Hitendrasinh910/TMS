@@ -55,6 +55,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Load master data for dropdowns
     await loadDropdowns();
 
+    // Fetch the next Sr No ONLY if it's a new entry (ID is 0)
+    if (Number(DOM.id().value) === 0) {
+        await fetchBillNo();
+    }
+
     // Auto-fill LR Details when an LR is selected
     DOM.inLR().addEventListener("change", handleLRSelection);
 
@@ -75,6 +80,25 @@ document.addEventListener("DOMContentLoaded", async () => {
         await loadForEdit(editId);
     }
 });
+
+// FETCH Bill No
+// ======================================================
+async function fetchBillNo() {
+    try {
+        // Adjust this endpoint to match your actual backend API route
+        const res = await apiFetch(`${API}/get-bill-no`);
+        const json = await res.json();
+
+        if (json.success) {
+            // Assuming your API returns the number in json.data
+            DOM.billNo().value = json.data;
+        } else {
+            showToast("warning", "Could not generate Bill No", "Bill");
+        }
+    } catch (err) {
+        console.error("Error fetching Bill No:", err);
+    }
+}
 
 // ======================================================
 // LOAD DROPDOWNS

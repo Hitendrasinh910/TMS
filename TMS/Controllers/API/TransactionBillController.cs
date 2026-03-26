@@ -30,6 +30,13 @@ namespace TMS.Controllers.API
             return Ok(ApiResponse<IEnumerable<TransactionBill>>.SuccessResponse("Bills loaded successfully", data));
         }
 
+        [HttpGet("get-bill-no")]
+        public async Task<IActionResult> GetBillNo()
+        {
+            int billNo = await _service.GetBillNo();
+            return Ok(new { success = true, data = billNo });
+        }
+
         // ---------------------------------------------------------
         // GET BY ID
         // ---------------------------------------------------------

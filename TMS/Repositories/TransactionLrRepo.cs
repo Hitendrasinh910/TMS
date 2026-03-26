@@ -34,6 +34,21 @@ namespace TMS.Repositories
             }
         }
 
+        public async Task<int> GetLrNoAsync()
+        {
+            try
+            {
+                // Calls a stored procedure to get Max(SrNo) + 1
+                return await _dapper.QueryFirstOrDefaultAsync<int>("usp_Transaction_LR_SelectLrNo");
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex, "Error in LRRepo.GetLrNoAsync");
+                // Return 1 as a fallback (assuming it's the first record)
+                return 1;
+            }
+        }
+
         // ---------------------------------------------------------
         // GET BY ID (Header + Details)
         // ---------------------------------------------------------

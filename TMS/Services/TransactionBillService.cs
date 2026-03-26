@@ -15,6 +15,8 @@ namespace TMS.Services
 
         public async Task<IEnumerable<TransactionBill>> GetAllAsync() => await _repo.GetAllAsync();
 
+        public async Task<int> GetBillNo() => await _repo.GetBillNoAsync();
+
         public async Task<TransactionBillDto?> GetByIdAsync(int id) => await _repo.GetByIdAsync(id);
 
         public async Task<SaveResult> SaveAsync(TransactionBillDto dto, string userName) => await _repo.SaveAsync(dto, userName);

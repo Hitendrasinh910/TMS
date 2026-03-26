@@ -68,6 +68,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     await loadDropdowns();
 
+    // Fetch the next Sr No ONLY if it's a new entry (ID is 0)
+    if (Number(DOM.id().value) === 0) {
+        await fetchLRNo();
+    }
+
     // Event Listeners
     DOM.chkBillTo().addEventListener("change", (e) => DOM.billTo().disabled = !e.target.checked);
 
@@ -91,6 +96,25 @@ document.addEventListener("DOMContentLoaded", async () => {
         await loadLRForEdit(editId);
     }
 });
+
+// FETCH LR No
+// ======================================================
+async function fetchLRNo() {
+    try {
+        // Adjust this endpoint to match your actual backend API route
+        const res = await apiFetch(`${API}/get-lr-no`);
+        const json = await res.json();
+
+        if (json.success) {
+            // Assuming your API returns the number in json.data
+            DOM.lrNo().value = json.data;
+        } else {
+            showToast("warning", "Could not generate LR No", "LR");
+        }
+    } catch (err) {
+        console.error("Error fetching Bill No:", err);
+    }
+}
 
 // ======================================================
 // LOAD DROPDOWNS

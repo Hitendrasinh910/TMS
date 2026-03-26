@@ -27,6 +27,13 @@ namespace TMS.Controllers.API
             return Ok(ApiResponse<IEnumerable<TransactionLR>>.SuccessResponse("LRs loaded successfully", lrs));
         }
 
+        [HttpGet("get-lr-no")]
+        public async Task<IActionResult> GetLrNo()
+        {
+            int billNo = await _lrService.GetLrNo();
+            return Ok(new { success = true, data = billNo });
+        }
+
         [HttpGet("get-by-id/{id:int}")]
         public async Task<IActionResult> GetById(int id)
         {

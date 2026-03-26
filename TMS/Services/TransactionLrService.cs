@@ -15,6 +15,8 @@ namespace TMS.Services
 
         public async Task<IEnumerable<TransactionLR>> GetAllAsync() => await _lrRepo.GetAllAsync();
 
+        public async Task<int> GetLrNo() => await _lrRepo.GetLrNoAsync();
+
         public async Task<TransactionLRDto?> GetByIdAsync(int idLr) => await _lrRepo.GetByIdAsync(idLr);
 
         public async Task<SaveResult> SaveAsync(TransactionLRDto dto, string userName) => await _lrRepo.SaveAsync(dto, userName);

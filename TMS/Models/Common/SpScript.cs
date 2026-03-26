@@ -19,3 +19,14 @@ SELECT ISNULL(MAX(SrNo), 0) +1
     FROM[dbo].[Master_BillToParty]; --Ensure this matches your actual table name
 END
 */
+
+/*
+Create PROCEDURE[dbo].[usp_Transaction_Bill_SelectBillNo]
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+	SELECT ISNULL(MAX(IDBill), 0) +1
+    FROM[dbo].[Transaction_Bill] --Ensure this matches your actual table name
+END
+*/
