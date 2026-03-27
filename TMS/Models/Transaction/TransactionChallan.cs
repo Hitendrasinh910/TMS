@@ -9,7 +9,7 @@ namespace TMS.Models.Transaction
         public DateTime? ChallanDate { get; set; }
         public int? IDBill { get; set; }
         public int? IDTruck { get; set; }
-        public string DriverName { get; set; }
+        public string? DriverName { get; set; }
         public int? IDTransporter { get; set; }
         public int? IDConsignee { get; set; }
         public string PanCardHolder { get; set; }

@@ -9,10 +9,13 @@ namespace TMS.Models.Transaction
         public DateTime? BillDate { get; set; }
         public int? IDBillToParty { get; set; }
         public int? IDTruck { get; set; }
-        public string DriverMobileNo { get; set; }
+        public string? DriverMobileNo { get; set; }
         public decimal FinalAmount { get; set; }
         public decimal ToPayAmount { get; set; }
         public decimal CommissionAmt { get; set; }
-        public string Remarks { get; set; }
+        public string? Remarks { get; set; }
+
+        // For ID
+        public string? BillToPartyName { get; set; }
     }
 }

@@ -15,7 +15,7 @@
         public decimal Amount { get; set; }
 
         // Display Helpers
-        public string LRNo { get; set; }
+        public string? LRNo { get; set; }
         public DateTime? LRDate { get; set; }
     }
 }

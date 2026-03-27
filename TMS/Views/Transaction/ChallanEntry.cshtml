@@ -33,7 +33,7 @@
                         </div>
                         <div class="col-md-4">
                             <label class="form-label">Consignee</label>
-                            <select class="form-select" id="ddlConsignee"></select>
+                            <select class="form-control form-select" id="ddlConsignee"></select>
                         </div>
                         <div class="col-md-2">
                             <label class="form-label">Pan Card Holder</label>
@@ -48,11 +48,11 @@
                     <div class="row g-3 mb-4 pb-4 border-bottom">
                         <div class="col-md-2">
                             <label class="form-label">Select Bill No</label>
-                            <select class="form-select" id="ddlBill"></select>
+                            <select class="form-control form-select" id="ddlBill"></select>
                         </div>
                         <div class="col-md-2">
                             <label class="form-label">Truck No</label>
-                            <select class="form-select" id="ddlTruck"></select>
+                            <select class="form-control form-select" id="ddlTruck"></select>
                         </div>
                         <div class="col-md-2">
                             <label class="form-label">Driver Name</label>
@@ -60,7 +60,7 @@
                         </div>
                         <div class="col-md-2">
                             <label class="form-label">Transport Through</label>
-                            <select class="form-select" id="ddlTransporter"></select>
+                            <select class="form-control form-select" id="ddlTransporter"></select>
                         </div>
                         <div class="col-md-2">
                             <label class="form-label">Advance Payment 1</label>
@@ -104,7 +104,7 @@
                                     <td><input type="text" class="form-control form-control-sm" id="inDesc"></td>
                                     <td><input type="text" class="form-control form-control-sm" id="inPkgs"></td>
                                     <td>
-                                        <select class="form-select form-select-sm calc-grid" id="inFreightOn">
+                                        <select class="form-control form-select form-select-sm calc-grid" id="inFreightOn">
                                             <option value="Fix">Fix</option>
                                             <option value="Weight">Weight</option>
                                         </select>
@@ -224,5 +224,5 @@
 </div>
 
 @section Scripts {
-    <script src="~/TMSJs/Transaction/challanEntry.js"></script>
+    <script src="~/TMSJs/Transaction/challanEntry.js" asp-append-version="true"></script>
 }

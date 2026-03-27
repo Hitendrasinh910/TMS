@@ -36,5 +36,11 @@ namespace TMS.Models.Transaction
         public decimal HamaliAmt { get; set; }
         public decimal OtherChargeAmt { get; set; }
         public decimal TotalAmt { get; set; }
+
+        // ID Name fields
+        public string? ConsignorName { get; set; }
+        public string? ConsigneeName { get; set; }
+        public string? FromCityName { get; set; }
+        public string? ToCityName { get; set; }
     }
 }

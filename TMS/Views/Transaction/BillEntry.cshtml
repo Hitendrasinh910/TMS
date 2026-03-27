@@ -28,14 +28,14 @@
                             <input type="date" class="form-control" id="txtBillDate" required>
                         </div>
 
-                        <div class="col-md-6"></div> <div class="col-md-6">
+                        <div class="col-md-3"></div> <div class="col-md-6">
                             <label class="form-label">Bill To Party <span class="text-danger">*</span></label>
-                            <select class="form-select" id="ddlParty" required></select>
+                            <select class="form-control form-select" id="ddlParty" required></select>
                         </div>
 
                         <div class="col-md-3">
                             <label class="form-label">Truck No</label>
-                            <select class="form-select" id="ddlTruck"></select>
+                            <select class="form-control form-select" id="ddlTruck"></select>
                         </div>
 
                         <div class="col-md-3">
@@ -60,7 +60,7 @@
                                     <th style="width: 7%">Rate</th>
                                     <th style="width: 8%">Extra Chg</th>
                                     <th style="width: 8%">Amount</th>
-                                    <th style="width: 5%">Act</th>
+                                    <th style="width: 5%">Action</th>
                                 </tr>
                             </thead>
                             <tbody id="gridBody">
@@ -68,24 +68,24 @@
                             <tfoot class="bg-light">
                                 <tr>
                                     <td>
-                                        <select class="form-select form-select-sm" id="inLR">
+                                        <select class="form-control form-select form-select-sm" id="inLR">
                                             <option value="">-- LR No --</option>
                                         </select>
                                     </td>
                                     <td><input type="date" class="form-control form-control-sm" id="inLRDate" readonly></td>
                                     <td><input type="text" class="form-control form-control-sm" id="inDesc"></td>
                                     <td>
-                                        <select class="form-select form-select-sm" id="inFrom">
+                                        <select class="form-control form-select form-select-sm" id="inFrom">
                                             <option value="">-- City --</option>
                                         </select>
                                     </td>
                                     <td>
-                                        <select class="form-select form-select-sm" id="inTo">
+                                        <select class="form-control form-select form-select-sm" id="inTo">
                                             <option value="">-- City --</option>
                                         </select>
                                     </td>
                                     <td>
-                                        <select class="form-select form-select-sm calc-trigger" id="inFreightOn">
+                                        <select class="form-control form-select form-select-sm calc-trigger" id="inFreightOn">
                                             <option value="Fix">Fix</option>
                                             <option value="Weight">Weight</option>
                                         </select>
@@ -140,5 +140,5 @@
 </div>
 
 @section Scripts {
-    <script src="~/TMSJs/Transaction/BillEntry.js"></script>
+    <script src="~/TMSJs/Transaction/BillEntry.js" asp-append-version="true"></script>
 }

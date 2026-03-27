@@ -95,7 +95,7 @@ function bindEvents() {
     // Update LR Date when an LR is selected in the grid
     DOM.inLR().addEventListener("change", function (e) {
         const selectedId = e.target.value;
-        const matchingLR = cachedLRData.find(x => x.idLR == selectedId);
+        const matchingLR = cachedLRData.find(x => x.idlr == selectedId);
 
         if (matchingLR && matchingLR.lrDate) {
             DOM.inLRDate().value = matchingLR.lrDate.split('T')[0];
@@ -148,8 +148,15 @@ async function loadDropdownData() {
 
         if (lrJson.success) {
             cachedLRData = lrJson.data;
-            populateDropdownHtml(DOM.inLR(), lrJson, "idLR", "lrNo", "-- Select LR --");
+            populateDropdownHtml(DOM.inLR(), lrJson, "idlr", "lrNo", "-- Select LR --");
         }
+
+        // CRITICAL FIX: Refresh Select Pickers
+        // ==========================================
+        $('.form-select, select').selectpicker('refresh');
+        //$('#inLR').selectpicker('refresh');
+        //$('#ddlConsignee').selectpicker('refresh');
+        // If you are using Select2, use: $('select').trigger('change');
     }
     catch (err) {
         console.error("Error loading dropdown data:", err);
@@ -203,7 +210,7 @@ function addGridItemToArray() {
     // Create the object
     const newItem = {
         idTemp: Date.now(), // Used purely for UI deletion
-        idLR: Number(DOM.inLR().value),
+        idlr: Number(DOM.inLR().value),
         lrNo: lrDisplayText,
         lrDate: DOM.inLRDate().value,
         methodOfPacking: DOM.inPack().value,
@@ -355,7 +362,7 @@ async function handleSaveTransaction(e) {
     for (let i = 0; i < gridItems.length; i++) {
         const row = gridItems[i];
         detailsDtoArray.push({
-            idLR: row.idLR,
+            idlr: row.idlr,
             methodOfPacking: row.methodOfPacking,
             description: row.description,
             packages: row.packages,
@@ -515,7 +522,7 @@ async function loadChallanForEdit(id) {
 
             gridItems.push({
                 idTemp: Date.now() + i, // Generate unique local UI ID
-                idLR: dbDetail.idLR,
+                idlr: dbDetail.idlr,
                 lrNo: dbDetail.lrNo,
                 lrDate: dbDetail.lrDate,
                 methodOfPacking: dbDetail.methodOfPacking,
@@ -531,6 +538,9 @@ async function loadChallanForEdit(id) {
 
         // Render the array to the screen
         renderGridTable();
+
+        // refresh dropdown
+        $('.form-select, select').selectpicker('refresh');
 
     } catch (err) {
         showToast("danger", err.message, "Challan Edit Error");

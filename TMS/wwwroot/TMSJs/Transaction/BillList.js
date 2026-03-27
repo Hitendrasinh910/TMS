@@ -49,13 +49,13 @@ async function bindTable() {
             const finalAmt = d.finalAmount ? parseFloat(d.finalAmount).toFixed(2) : "0.00";
 
             // This maps to the alias 'BillToPartyName' we defined in our SQL SP
-            const partyName = d.billToPartyName || d.idBillToParty || 'Unknown';
+            const partyName = d.billToPartyName || 'Unknown';
 
             tr.innerHTML = `
                 <td class="fw-bold text-primary">${escapeHtml(d.billNo || '-')}</td>
                 <td>${billDate}</td>
                 <td>${escapeHtml(partyName)}</td>
-                <td class="text-end fw-bold text-success">₹ ${finalAmt}</td>
+                <td class="fw-bold text-success">₹ ${finalAmt}</td>
                 <td>${escapeHtml(d.e_By || '-')}</td>
                 <td class="text-center">
                     <div class="d-flex justify-content-center">

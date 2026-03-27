@@ -30,3 +30,14 @@ BEGIN
     FROM[dbo].[Transaction_Bill] --Ensure this matches your actual table name
 END
 */
+
+/*
+Create PROCEDURE[dbo].[usp_Transaction_LR_SelectLrNo]
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+	SELECT ISNULL(MAX(IDLR), 0) +1
+    FROM[dbo].[Transaction_LR] --Ensure this matches your actual table name
+END
+*/

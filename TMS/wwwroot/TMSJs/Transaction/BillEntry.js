@@ -118,7 +118,7 @@ async function loadDropdowns() {
         // Cache LR data so we can auto-fill details later
         if (lrRes.success) {
             lrData = lrRes.data;
-            populateDropdown(DOM.inLR(), lrRes, "idLR", "lrNo", "-- Select LR --");
+            populateDropdown(DOM.inLR(), lrRes, "idlr", "lrNo", "-- Select LR --");
         }
 
         // Cache City data
@@ -131,6 +131,11 @@ async function loadDropdowns() {
             DOM.inFrom().innerHTML = cityOptions;
             DOM.inTo().innerHTML = cityOptions;
         }
+
+        // CRITICAL FIX: Refresh Select Pickers
+        // ==========================================
+        $('.default-select, select').selectpicker('refresh');
+        // If you are using Select2, use: $('select').trigger('change');
 
     } catch (err) {
         console.error("Failed to load dropdown data:", err);
@@ -152,7 +157,7 @@ function populateDropdown(selectElement, responseJson, valueProp, textProp, defa
 // ======================================================
 function handleLRSelection(e) {
     const selectedLRId = e.target.value;
-    const lr = lrData.find(x => x.idLR == selectedLRId);
+    const lr = lrData.find(x => x.idlr == selectedLRId);
 
     if (lr) {
         DOM.inLRDate().value = lr.lrDate ? lr.lrDate.split('T')[0] : '';
@@ -201,7 +206,7 @@ function addGridItem() {
     // 3. Create Grid Object
     const item = {
         idTemp: Date.now(), // Local identifier for deletion
-        idLR: Number(DOM.inLR().value),
+        idlr: Number(DOM.inLR().value),
         lrNo: lrText,
         lrDate: DOM.inLRDate().value,
         description: DOM.inDesc().value.trim(),
@@ -294,6 +299,7 @@ async function saveTransaction(e) {
     const dto = {
         Header: {
             idBill: Number(DOM.id().value || 0),
+            billNo: DOM.billNo().value.trim(),
             billDate: DOM.date().value,
             idBillToParty: Number(DOM.party().value),
             idTruck: Number(DOM.truck().value || 0) || null,
@@ -304,7 +310,7 @@ async function saveTransaction(e) {
             remarks: DOM.remarks().value.trim()
         },
         Details: gridItems.map(i => ({
-            idLR: i.idLR,
+            idlr: i.idlr,
             description: i.description,
             idFromCity: i.idFromCity,
             idToCity: i.idToCity,
@@ -382,7 +388,7 @@ async function loadForEdit(id) {
         // Bind Grid Array
         gridItems = json.data.details.map(d => ({
             idTemp: Date.now() + Math.random(), // Unique local ID
-            idLR: d.idLR,
+            idlr: d.idlr,
             lrNo: d.lrNo,
             lrDate: d.lrDate,
             description: d.description,
@@ -399,6 +405,8 @@ async function loadForEdit(id) {
         }));
 
         renderGrid();
+
+        $('.default-select, select').selectpicker('refresh');
 
     } catch (err) {
         showToast("danger", err.message, "Bill Edit Error");

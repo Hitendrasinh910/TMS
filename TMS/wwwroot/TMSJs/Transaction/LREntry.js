@@ -140,6 +140,8 @@ async function loadDropdowns() {
         populateDropdown(DOM.fromCity(), cityRes, "idCity", "city", "");
         populateDropdown(DOM.toCity(), cityRes, "idCity", "city", "");
 
+        $('.form-select, select').selectpicker('refresh');
+
     } catch (err) {
         console.error("Dropdown load error", err);
     }
@@ -349,8 +351,10 @@ async function loadLRForEdit(id) {
         const data = json.data;
         const h = data.header;
 
+        
+
         // Bind Header
-        DOM.id().value = h.idLR;
+        DOM.id().value = h.idlr;
         DOM.lrNo().value = h.lrNo || "";
         if (h.lrDate) DOM.lrDate().value = h.lrDate.split('T')[0];
 
@@ -396,6 +400,8 @@ async function loadLRForEdit(id) {
         }));
 
         renderGrid();
+        // refresh dropdown
+        $('.form-select, select').selectpicker('refresh');
 
     } catch (err) {
         showToast("danger", err.message, "LR Edit");

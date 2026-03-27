@@ -46,6 +46,8 @@ async function loadParties() {
             json.data.forEach(p => options += `<option value="${p.idPartyAccount}">${escapeHtml(p.partyName)}</option>`);
             DOM.party().innerHTML = options;
         }
+
+        $('.form-select, select').selectpicker('refresh');
     } catch (err) { console.error(err); }
 }
 
@@ -70,7 +72,7 @@ async function bindTable() {
             <td>${dateStr}</td>
             <td>${escapeHtml(d.partyName || 'Unknown')}</td>
             <td>${escapeHtml(d.idPaymentMode || '-')}</td>
-            <td class="text-end fw-bold text-success">₹ ${parseFloat(d.amountReceived || 0).toFixed(2)}</td>
+            <td class="fw-bold text-success">₹ ${parseFloat(d.amountReceived || 0).toFixed(2)}</td>
             <td class="text-center">
                 <div class="d-flex">
                     <a href="javascript:void(0);" onclick="editEntry(${d.idPayment})" class="btn btn-primary btn-xs sharp me-1"><i class="fa fa-pencil"></i></a>
@@ -112,6 +114,9 @@ async function editEntry(id) {
         DOM.balance().value = parseFloat(d.balanceAmt || 0).toFixed(2);
         DOM.remarks().value = d.remarks || "";
         entryModal.show();
+
+        // refresh dropdown
+        $('.form-select, select').selectpicker('refresh');
     }
 }
 

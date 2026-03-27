@@ -53,7 +53,7 @@ async function bindTable() {
                 <td>${lrDate}</td>
                 <td>${escapeHtml(consignor)}</td>
                 <td>${escapeHtml(consignee)}</td>
-                <td class="text-end fw-bold">₹ ${totalAmt}</td>
+                <td class="fw-bold">₹ ${totalAmt}</td>
                 <td>${escapeHtml(d.e_By || '-')}</td>
                 <td class="text-center">
                     <div class="d-flex justify-content-center">

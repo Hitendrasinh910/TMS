@@ -14,12 +14,12 @@
         public decimal Rate { get; set; }
         public decimal ExtraCharges { get; set; }
         public decimal Amount { get; set; }
-        public string Remarks { get; set; }
+        public string? Remarks { get; set; }
 
         // Helper properties for UI (not saved to the Detail table directly)
-        public string LRNo { get; set; }
+        public string? LRNo { get; set; }
         public DateTime? LRDate { get; set; }
-        public string FromCityName { get; set; }
-        public string ToCityName { get; set; }
+        public string? FromCityName { get; set; }
+        public string? ToCityName { get; set; }
     }
 }
