@@ -44,13 +44,6 @@ const DOM = {
 // INIT
 // ======================================================
 document.addEventListener("DOMContentLoaded", async () => {
-
-    // Load all dropdowns concurrently for better performance
-    await loadDropdowns();
-    await bindTable();
-
-    entryModal = new bootstrap.Modal(DOM.modal(), { backdrop: "static" });
-
     DOM.modal().addEventListener("shown.bs.modal", async () => {
         setTimeout(() => DOM.partyName().focus(), 50);
 
@@ -59,6 +52,13 @@ document.addEventListener("DOMContentLoaded", async () => {
             await fetchNextAccountSrNo();
         }
     });
+
+    // Load all dropdowns concurrently for better performance
+    await loadDropdowns();
+    await bindTable();
+
+    entryModal = new bootstrap.Modal(DOM.modal(), { backdrop: "static" });
+
 
     DOM.modal().addEventListener("hidden.bs.modal", clearForm);
     DOM.save().addEventListener("click", saveData);

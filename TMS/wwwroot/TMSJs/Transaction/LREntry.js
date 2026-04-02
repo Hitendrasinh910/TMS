@@ -173,6 +173,10 @@ function fillPartyDetails(partyId, type) {
         DOM.toState().value = party.idState || '';
         DOM.toCity().value = party.idCity || '';
     }
+    $('#ddlFromState').selectpicker('refresh');
+    $('#ddlFromCity').selectpicker('refresh');
+    $('#ddlToState').selectpicker('refresh');
+    $('#ddlToCity').selectpicker('refresh');
 }
 
 // ======================================================
