@@ -74,7 +74,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     // Event Listeners
-    DOM.chkBillTo().addEventListener("change", (e) => DOM.billTo().disabled = !e.target.checked);
+    DOM.chkBillTo().addEventListener("change", (e) => {
+        const isChecked = e.target.checked;
+
+        DOM.billTo().disabled = !isChecked;
+        // you MUST refresh the selectpicker to see the visual change.
+        $(DOM.billTo()).selectpicker('refresh');
+    });
 
     // Auto-fill Party Address & State
     DOM.consignor().addEventListener("change", (e) => fillPartyDetails(e.target.value, 'consignor'));

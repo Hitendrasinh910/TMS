@@ -40,6 +40,13 @@ namespace TMS.Controllers.API
             }
         }
 
+        [HttpGet("get-receipt-no")]
+        public async Task<IActionResult> GetReceiptNo()
+        {
+            int receiptNo = await _service.GetReceiptNo();
+            return Ok(new { success = true, data = receiptNo });
+        }
+
         // ---------------------------------------------------------
         // GET Payments BY ID
         // ---------------------------------------------------------

@@ -24,6 +24,11 @@ const DOM = {
 
 document.addEventListener("DOMContentLoaded", async () => {
     DOM.date().value = new Date().toISOString().split('T')[0];
+
+    if (Number(DOM.id().value) === 0) {
+        await fetchNextReceiptNo();
+    }
+
     await loadParties();
     await bindTable();
 
@@ -36,6 +41,25 @@ document.addEventListener("DOMContentLoaded", async () => {
     DOM.modal().addEventListener("hidden.bs.modal", clearForm);
     DOM.save().addEventListener("click", saveData);
 });
+
+// FETCH NEXT ACCOUNT SR NO
+// ======================================================
+async function fetchNextReceiptNo() {
+    try {
+        // Adjust this endpoint to match your actual backend API route
+        const res = await apiFetch(`${API}/get-receipt-no`);
+        const json = await res.json();
+
+        if (json.success) {
+            // Assuming your API returns the number in json.data
+            DOM.receiptNo().value = json.data;
+        } else {
+            showToast("warning", "Could not generate Receipt No", "Payment Receive");
+        }
+    } catch (err) {
+        console.error("Error fetching Account Sr No:", err);
+    }
+}
 
 async function loadParties() {
     try {
@@ -108,7 +132,7 @@ async function editEntry(id) {
         DOM.billNo().value = d.idBill || "";
         DOM.billAmt().value = parseFloat(d.billAmount || 0).toFixed(2);
         DOM.outstanding().value = parseFloat(d.outstandingAmount || 0).toFixed(2);
-        DOM.mode().value = d.idPaymentMode || "NEFT/RTGS";
+        DOM.mode().value = d.idPaymentMode || 0;
         DOM.received().value = parseFloat(d.amountReceived || 0).toFixed(2);
         DOM.tds().value = parseFloat(d.tdsAmt || 0).toFixed(2);
         DOM.balance().value = parseFloat(d.balanceAmt || 0).toFixed(2);
@@ -141,7 +165,7 @@ async function saveData() {
         idBill: Number(DOM.billNo().value || 0),
         billAmount: parseFloat(DOM.billAmt().value) || 0,
         outstandingAmount: parseFloat(DOM.outstanding().value) || 0,
-        idPaymentMode: DOM.mode().value,
+        idPaymentMode: Number(DOM.mode().value),
         amountReceived: parseFloat(DOM.received().value) || 0,
         tdsAmt: parseFloat(DOM.tds().value) || 0,
         balanceAmt: parseFloat(DOM.balance().value) || 0,

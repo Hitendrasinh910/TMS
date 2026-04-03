@@ -12,7 +12,7 @@ namespace TMS.Models.Transaction
         public int? IDBill { get; set; }
         public decimal BillAmount { get; set; }
         public decimal OutstandingAmount { get; set; }
-        public string IDPaymentMode { get; set; } // Stored as NVARCHAR(50) per your SQL
+        public int? IDPaymentMode { get; set; } // Stored as NVARCHAR(50) per your SQL
         public decimal AmountReceived { get; set; }
         public decimal TDSAmt { get; set; }
         public decimal BalanceAmt { get; set; }

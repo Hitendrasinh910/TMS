@@ -8,9 +8,29 @@ namespace TMS.Repositories
     public class TransactionPaymentReceiveRepo
     {
         private readonly IDapperHelper _dapper;
-        public TransactionPaymentReceiveRepo(IDapperHelper dapperHelper) => _dapper = dapperHelper;
+        private readonly ILogger<TransactionPaymentReceive>? _logger;
 
+        public TransactionPaymentReceiveRepo(IDapperHelper dapperHelper, ILogger<TransactionPaymentReceive>? logger = null)
+        {
+            _dapper = dapperHelper;
+            _logger = logger;
+        }
         public async Task<IEnumerable<TransactionPaymentReceive>> GetAllAsync() => await _dapper.QueryAsync<TransactionPaymentReceive>("usp_Transaction_PaymentReceive_Select");
+
+        public async Task<int> GetReceiptNoAsync()
+        {
+            try
+            {
+                // Calls a stored procedure to get Max(SrNo) + 1
+                return await _dapper.QueryFirstOrDefaultAsync<int>("usp_Transaction_PaymentReceive_SelectReceiptNo");
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex, "Error in PaymentReceive.GetReceiptNoAsync");
+                // Return 1 as a fallback (assuming it's the first record)
+                return 1;
+            }
+        }
 
         public async Task<TransactionPaymentReceive?> GetByIdAsync(int idPayment)
         {
