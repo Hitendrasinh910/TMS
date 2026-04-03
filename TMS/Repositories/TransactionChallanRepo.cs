@@ -33,6 +33,21 @@ namespace TMS.Repositories
             }
         }
 
+        public async Task<int> GetVoucherNoAsync()
+        {
+            try
+            {
+                // Calls a stored procedure to get Max(SrNo) + 1
+                return await _dapper.QueryFirstOrDefaultAsync<int>("usp_Transaction_Challan_SelectVoucherNo");
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex, "Error in TransactionChallanRepo.GetVoucherNoAsync");
+                // Return 1 as a fallback (assuming it's the first record)
+                return 1;
+            }
+        }
+
         // ---------------------------------------------------------
         // GET BY ID (For Editing)
         // ---------------------------------------------------------

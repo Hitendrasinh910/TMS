@@ -76,6 +76,10 @@ document.addEventListener("DOMContentLoaded", async function () {
     const todayString = new Date().toISOString().split('T')[0];
     DOM.date().value = todayString;
 
+    if (Number(DOM.id().value) === 0) {
+        await fetchVoucherNo();
+    }
+
     // 2. Load Dropdowns
     await loadDropdownData();
 
@@ -90,6 +94,25 @@ document.addEventListener("DOMContentLoaded", async function () {
         await loadChallanForEdit(editId);
     }
 });
+
+// FETCH Voucer No
+// ======================================================
+async function fetchVoucherNo() {
+    try {
+        // Adjust this endpoint to match your actual backend API route
+        const res = await apiFetch(`${API}/get-voucher-no`);
+        const json = await res.json();
+
+        if (json.success) {
+            // Assuming your API returns the number in json.data
+            DOM.voucher().value = json.data;
+        } else {
+            showToast("warning", "Could not generate LR No", "LR");
+        }
+    } catch (err) {
+        console.error("Error fetching Bill No:", err);
+    }
+}
 
 function bindEvents() {
     // Update LR Date when an LR is selected in the grid

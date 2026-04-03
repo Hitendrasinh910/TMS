@@ -66,12 +66,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     DOM.lrDate().value = today;
     DOM.invoiceDate().value = today;
 
-    await loadDropdowns();
-
     // Fetch the next Sr No ONLY if it's a new entry (ID is 0)
     if (Number(DOM.id().value) === 0) {
         await fetchLRNo();
     }
+
+    await loadDropdowns();
+
 
     // Event Listeners
     DOM.chkBillTo().addEventListener("change", (e) => {

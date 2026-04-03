@@ -30,6 +30,8 @@ async function loadStates() {
                 ddl.innerHTML += `<option value="${s.idState}">${escapeHtml(s.state)}</option>`;
             });
         }
+
+        $('.default-select, select').selectpicker('refresh');
     } catch (err) { console.error("Failed to load states", err); }
 }
 

@@ -100,6 +100,7 @@ async function loadDropdowns() {
         populateDropdown(DOM.state(), stateRes, "idState", "state", "-- Select State --");
         populateDropdown(DOM.city(), cityRes, "idCity", "city", "-- Select City --");
 
+        $('.default-select, select').selectpicker('refresh');
     } catch (err) {
         console.error("Error loading dropdowns:", err);
         showToast("warning", "Could not load all dropdown options", "Party Account");

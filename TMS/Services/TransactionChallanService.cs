@@ -18,6 +18,8 @@ namespace TMS.Services
             return await _repo.GetAllAsync();
         }
 
+        public async Task<int> GetVoucherNo() => await _repo.GetVoucherNoAsync();
+
         public async Task<TransactionChallanDto> GetByIdAsync(int idChallan)
         {
             return await _repo.GetByIdAsync(idChallan);

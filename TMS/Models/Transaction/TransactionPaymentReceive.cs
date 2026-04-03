@@ -16,6 +16,11 @@ namespace TMS.Models.Transaction
         public decimal AmountReceived { get; set; }
         public decimal TDSAmt { get; set; }
         public decimal BalanceAmt { get; set; }
-        public string Remarks { get; set; }
+        public string? Remarks { get; set; }
+
+        // Relation
+        public string? PaymentType { get; set; }
+        public string? PartyName { get; set; }
+        public string? PaymentMode { get; set; }
     }
 }

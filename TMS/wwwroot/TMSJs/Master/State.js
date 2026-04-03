@@ -51,6 +51,8 @@ async function loadCountries() {
                 ddl.innerHTML += `<option value="${c.idCountry}">${escapeHtml(c.country)}</option>`;
             });
         }
+
+        $('.default-select, select').selectpicker('refresh');
     } catch (err) {
         console.error("Failed to load countries", err);
     }

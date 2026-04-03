@@ -118,7 +118,7 @@ async function bindTable() {
             <td class="fw-bold">${escapeHtml(d.receiptNo || '-')}</td>
             <td>${dateStr}</td>
             <td>${escapeHtml(d.partyName || 'Unknown')}</td>
-            <td>${escapeHtml(d.idPaymentMode || '-')}</td>
+            <td>${escapeHtml(d.paymentMode || '-')}</td>
             <td class="fw-bold text-success">₹ ${parseFloat(d.amountReceived || 0).toFixed(2)}</td>
             <td class="text-center">
                 <div class="d-flex">

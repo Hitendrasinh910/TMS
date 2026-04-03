@@ -37,7 +37,7 @@
                     <div class="row g-3">
                         <div class="col-md-12">
                             <label class="form-label">Select State <span class="text-danger">*</span></label>
-                            <select class="form-select" id="ddlState" required>
+                            <select class="form-control form-select" id="ddlState" required>
                                 <option value="">-- Select State --</option>
                             </select>
                         </div>
@@ -57,5 +57,5 @@
 </div>
 
 @section Scripts {
-    <script src="~/TMSJs/Master/city.js"></script>
+    <script src="~/TMSJs/Master/city.js" asp-append-version="true"></script>
 }

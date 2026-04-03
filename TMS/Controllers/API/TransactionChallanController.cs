@@ -27,6 +27,13 @@ namespace TMS.Controllers.API
             return Ok(ApiResponse<IEnumerable<TransactionChallan>>.SuccessResponse("Challans loaded successfully", data));
         }
 
+        [HttpGet("get-voucher-no")]
+        public async Task<IActionResult> GetVoucherNo()
+        {
+            int voucherNo = await _service.GetVoucherNo();
+            return Ok(new { success = true, data = voucherNo });
+        }
+
         [HttpGet("get-by-id/{id:int}")]
         public async Task<IActionResult> GetById(int id)
         {

@@ -76,6 +76,8 @@ async function loadParties() {
             DOM.consignor().innerHTML = options;
             DOM.consignee().innerHTML = options;
             DOM.billTo().innerHTML = options;
+
+            $('.default-select, select').selectpicker('refresh');
         }
     } catch (err) {
         console.error("Error loading parties:", err);
