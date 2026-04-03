@@ -45,12 +45,12 @@ const DOM = {
 // ======================================================
 document.addEventListener("DOMContentLoaded", async () => {
     DOM.modal().addEventListener("shown.bs.modal", async () => {
-        setTimeout(() => DOM.partyName().focus(), 50);
-
         // Fetch the next Sr No ONLY if it's a new entry (ID is 0)
         if (Number(DOM.id().value) === 0) {
             await fetchNextAccountSrNo();
         }
+
+        setTimeout(() => DOM.partyName().focus(), 50);
     });
 
     // Load all dropdowns concurrently for better performance

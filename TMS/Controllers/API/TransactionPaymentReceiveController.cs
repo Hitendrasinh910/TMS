@@ -40,6 +40,20 @@ namespace TMS.Controllers.API
             }
         }
 
+        [HttpGet("get-all-payment-type")]
+        public async Task<IActionResult> GetAllPaymentType()
+        {
+            var paymentTypes = await _service.GetAllPaymentTypeAsync();
+            return Ok(ApiResponse<IEnumerable<TransactionPaymentType>>.SuccessResponse("PaymentType loaded successfully", paymentTypes));
+        }
+
+        [HttpGet("get-all-payment-mode")]
+        public async Task<IActionResult> GetAllPaymentMode()
+        {
+            var paymentModes = await _service.GetAllPaymentModeAsync();
+            return Ok(ApiResponse<IEnumerable<TransactionPaymentMode>>.SuccessResponse("PaymentMode loaded successfully", paymentModes));
+        }
+
         [HttpGet("get-receipt-no")]
         public async Task<IActionResult> GetReceiptNo()
         {

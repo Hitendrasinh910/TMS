@@ -32,6 +32,32 @@ namespace TMS.Repositories
             }
         }
 
+        public async Task<IEnumerable<TransactionPaymentType>> GetAllPaymentTypeAsync()
+        {
+            try
+            {
+                return await _dapper.QueryAsync<TransactionPaymentType>("usp_Transaction_PaymentType_Select");
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex, "Error in PaymentReceive.GetAllPaymentTypeAsync");
+                return Enumerable.Empty<TransactionPaymentType>();
+            }
+        }
+
+        public async Task<IEnumerable<TransactionPaymentMode>> GetAllPaymentModeAsync()
+        {
+            try
+            {
+                return await _dapper.QueryAsync<TransactionPaymentMode>("usp_Transaction_PaymentMode_Select");
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex, "Error in PaymentReceive.GetAllPaymentModeAsync");
+                return Enumerable.Empty<TransactionPaymentMode>();
+            }
+        }
+
         public async Task<TransactionPaymentReceive?> GetByIdAsync(int idPayment)
         {
             var param = new DynamicParameters();

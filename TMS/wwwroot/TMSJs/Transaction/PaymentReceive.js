@@ -1,4 +1,5 @@
 ﻿const API = "/api/transaction/payment-receive";
+const API_BILL = "/api/transaction/bill";
 const API_PARTY = "/api/master/party-account";
 let entryModal = null;
 
@@ -63,16 +64,37 @@ async function fetchNextReceiptNo() {
 
 async function loadParties() {
     try {
-        const res = await apiFetch(`${API_PARTY}/get-all`);
-        const json = await res.json();
-        if (json.success) {
-            let options = '<option value="">-- Select Party --</option>';
-            json.data.forEach(p => options += `<option value="${p.idPartyAccount}">${escapeHtml(p.partyName)}</option>`);
-            DOM.party().innerHTML = options;
-        }
+        //const res = await apiFetch(`${API_PARTY}/get-all`);
+        //const json = await res.json();
+        //if (json.success) {
+        //    let options = '<option value="">-- Select Party --</option>';
+        //    json.data.forEach(p => options += `<option value="${p.idPartyAccount}">${escapeHtml(p.partyName)}</option>`);
+        //    DOM.party().innerHTML = options;
+        //}
 
-        $('.form-select, select').selectpicker('refresh');
+        //$('.form-select, select').selectpicker('refresh');
+
+        const [paymentTypeRes, paymentModeRes, partyRes, billRes] = await Promise.all([
+            apiFetch(`${API}/get-all-payment-type`).then(r => r.json()),
+            apiFetch(`${API}/get-all-payment-mode`).then(r => r.json()),
+            apiFetch(`${API_PARTY}/get-all`).then(r => r.json()),
+            apiFetch(`${API_BILL}/get-all`).then(r => r.json())
+        ]);
+
+        populateDropdown(DOM.type(), paymentTypeRes, "idPaymentType", "paymentType", "-- Select Payment Type --");
+        populateDropdown(DOM.mode(), paymentModeRes, "idPaymentMode", "paymentMode", "-- Select Payment Mode --");
+        populateDropdown(DOM.party(), partyRes, "idPartyAccount", "partyName", "-- Select Party --");
+        populateDropdown(DOM.billNo(), billRes, "idBill", "billNo", "-- Select City --");
     } catch (err) { console.error(err); }
+}
+
+function populateDropdown(selectElement, responseJson, valueProp, textProp, defaultText) {
+    selectElement.innerHTML = `<option value="">${defaultText}</option>`;
+    if (responseJson && responseJson.success && responseJson.data) {
+        responseJson.data.forEach(item => {
+            selectElement.innerHTML += `<option value="${item[valueProp]}">${escapeHtml(item[textProp])}</option>`;
+        });
+    }
 }
 
 function calculateBalance() {
@@ -85,6 +107,7 @@ function calculateBalance() {
 async function bindTable() {
     const res = await apiFetch(`${API}/get-all`);
     const json = await res.json();
+
     if ($.fn.DataTable.isDataTable(DOM.table())) $(DOM.table()).DataTable().destroy();
     DOM.tbody().innerHTML = "";
 
