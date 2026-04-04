@@ -1,0 +1,68 @@
+﻿@{
+    ViewBag.Title = "User Rights Assignment";
+}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-header d-flex justify-content-between align-items-center bg-light">
+                <h4 class="card-title mb-0">Assign User Roles & Permissions</h4>
+                <button class="btn btn-success" id="btnSaveRights" disabled>
+                    <i class="fa fa-save"></i> Save Permissions
+                </button>
+            </div>
+
+            <div class="card-body">
+
+                <div class="row mb-4 bg-white p-3 border rounded">
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Select User Account <span class="text-danger">*</span></label>
+                        <select class="form-select form-select-lg" id="ddlUser">
+                            <option value="">-- Please Select a User --</option>
+                        </select>
+                    </div>
+                </div>
+
+                <h5 class="border-bottom pb-2 mb-3">Module Permissions</h5>
+
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover align-middle" id="tblRights">
+                        <thead class="table-primary text-center">
+                            <tr>
+                                <th style="width: 40%; text-align: left;">Form / Module Name</th>
+                                <th style="width: 15%;">
+                                    View <br />
+                                    <input type="checkbox" class="form-check-input mt-1" id="chkAllView">
+                                </th>
+                                <th style="width: 15%;">
+                                    Add <br />
+                                    <input type="checkbox" class="form-check-input mt-1" id="chkAllAdd">
+                                </th>
+                                <th style="width: 15%;">
+                                    Update <br />
+                                    <input type="checkbox" class="form-check-input mt-1" id="chkAllUpdate">
+                                </th>
+                                <th style="width: 15%;">
+                                    Delete <br />
+                                    <input type="checkbox" class="form-check-input mt-1" id="chkAllDelete">
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="rightsGridBody">
+                            <tr>
+                                <td colspan="5" class="text-center text-muted py-4">
+                                    Please select a user to load their permissions.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/TMSJs/Account/userRights.js" asp-append-version="true"></script>
+}

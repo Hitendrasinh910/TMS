@@ -1,4 +1,45 @@
-﻿<!DOCTYPE html>
+﻿@using System.Text.Json
+@using System.Security.Claims
+@using DRSPortal.Models
+
+@{
+    // 1. Safely extract the JSON string from the user's claims
+    var permissionsClaim = User.FindFirst("UserPermissions")?.Value;
+    var userRights = new List<UserRights>();
+
+    if (!string.IsNullOrEmpty(permissionsClaim))
+    {
+        try
+        {
+            userRights = JsonSerializer.Deserialize<List<UserRights>>(permissionsClaim);
+        }
+        catch
+        {
+            // Fallback to empty list if JSON parsing fails
+            userRights = new List<UserRights>();
+        }
+    }
+
+    // 2. Create a local C# function to easily check rights inside HTML
+    bool HasRight(string formName, string actionType)
+    {
+        var right = userRights.FirstOrDefault(r =>
+            r.FormName.Equals(formName, StringComparison.OrdinalIgnoreCase));
+
+        if (right == null) return false;
+
+        return actionType.ToUpper() switch
+        {
+            "VIEW" => right.AllowToView,
+            "ADD" => right.AllowToAdd,
+            "UPDATE" => right.AllowToUpdate,
+            "DELETE" => right.AllowToDelete,
+            _ => false
+        };
+    }
+}
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -284,57 +325,78 @@
                         <span>Master</span>
                     </li>
 
-                    <li id="menuPartyAccount">
-                        <a class="ai-icon" href="/Master/PartyAccount">
-                            <i class="flaticon-business-and-trade"></i>
-                            <span class="nav-text">Party Account</span>
-                        </a>
-                    </li>
+                    @if (HasRight("Party Account", "View"))
+                    {
+                        <li id="menuPartyAccount">
+                            <a class="ai-icon" href="/Master/PartyAccount">
+                                <i class="flaticon-business-and-trade"></i>
+                                <span class="nav-text">Party Account</span>
+                            </a>
+                        </li>
+                    }
 
-                    <li id="menuBillToParty">
-                        <a class="ai-icon" href="/Master/BillToParty">
-                            <i class="flaticon-business-and-trade"></i>
-                            <span class="nav-text">Bill To Party</span>
-                        </a>
-                    </li>
+                    @if (HasRight("Bill To Party", "View"))
+                    {
+                        <li id="menuBillToParty">
+                            <a class="ai-icon" href="/Master/BillToParty">
+                                <i class="flaticon-business-and-trade"></i>
+                                <span class="nav-text">Bill To Party</span>
+                            </a>
+                        </li>
+                    }
 
-                    <li id="menuCountry">
-                        <a class="ai-icon" href="/Master/Country">
-                            <i class="flaticon-location"></i>
-                            <span class="nav-text">Country</span>
-                        </a>
-                    </li>
+                    @if (HasRight("Country", "View"))
+                    {
+                        <li id="menuCountry">
+                            <a class="ai-icon" href="/Master/Country">
+                                <i class="flaticon-location"></i>
+                                <span class="nav-text">Country</span>
+                            </a>
+                        </li>
+                    }
 
-                    <li id="menuState">
-                        <a class="ai-icon" href="/Master/State">
-                            <i class="flaticon-location"></i>
-                            <span class="nav-text">State</span>
-                        </a>
-                    </li>
+                    @if (HasRight("State", "View"))
+                    {
+                        <li id="menuState">
+                            <a class="ai-icon" href="/Master/State">
+                                <i class="flaticon-location"></i>
+                                <span class="nav-text">State</span>
+                            </a>
+                        </li>
+                    }
 
-                    <li id="menuCity">
-                        <a class="ai-icon" href="/Master/City">
-                            <i class="flaticon-location"></i>
-                            <span class="nav-text">City</span>
-                        </a>
-                    </li>
+                    @if (HasRight("City", "View"))
+                    {
+                        <li id="menuCity">
+                            <a class="ai-icon" href="/Master/City">
+                                <i class="flaticon-location"></i>
+                                <span class="nav-text">City</span>
+                            </a>
+                        </li>
+                    }
 
-                     <li id="menuTruck">
-                        <a class="ai-icon" href="/Master/Truck">
-                            <i class="flaticon-location"></i>
-                            <span class="nav-text">Master Truck</span>
-                        </a>
-                    </li>
+                    @if (HasRight("Master Truck", "View"))
+                    {
+                        <li id="menuTruck">
+                            <a class="ai-icon" href="/Master/Truck">
+                                <i class="flaticon-location"></i>
+                                <span class="nav-text">Master Truck</span>
+                            </a>
+                        </li>
+                    }
 
-                    <li id="menuDriver">
-                        <a class="ai-icon" href="/Master/Driver">
-                            <i class="flaticon-location"></i>
-                            <span class="nav-text">Master Driver</span>
-                        </a>
-                    </li>
+                    @if (HasRight("Master Driver", "View"))
+                    {
+                        <li id="menuDriver">
+                            <a class="ai-icon" href="/Master/Driver">
+                                <i class="flaticon-location"></i>
+                                <span class="nav-text">Master Driver</span>
+                            </a>
+                        </li>
+                    }
 
 
-                   @*  <li id="menuDivision">
+                    @*  <li id="menuDivision">
                         <a class="ai-icon" href="/Master/Division">
                             <i class="flaticon-grid"></i>
                             <span class="nav-text">Division</span>
@@ -348,37 +410,56 @@
                         </a>
                     </li>
 
+                    <li id="menuUserRights">
+                        <a class="ai-icon" href="/Account/UserRights">
+                            <i class="flaticon-user"></i>
+                            <span class="nav-text">User Rights
+                        </a>
+                    </li>
+
                     <li class="menu-title" id="menuTransactionTitle">
                         <span>Transaction</span>
                     </li>
 
-                    <li id="menuLR">
-                        <a class="ai-icon" href="/Transaction/LRList">
-                            <i class="flaticon-document"></i>
-                            <span class="nav-text">LR</span>
-                        </a>
-                    </li>
+                    @if (HasRight("LR", "View"))
+                    {
+                        <li id="menuLR">
+                            <a class="ai-icon" href="/Transaction/LRList">
+                                <i class="flaticon-document"></i>
+                                <span class="nav-text">LR</span>
+                            </a>
+                        </li>
+                    }
 
-                    <li id="menuPaymentReceive">
-                        <a class="ai-icon" href="/Transaction/PaymentReceive">
-                            <i class="flaticon-document"></i>
-                            <span class="nav-text">Payment</span>
-                        </a>
-                    </li>
+                    @if (HasRight("Payment", "View"))
+                    {
+                        <li id="menuPaymentReceive">
+                            <a class="ai-icon" href="/Transaction/PaymentReceive">
+                                <i class="flaticon-document"></i>
+                                <span class="nav-text">Payment</span>
+                            </a>
+                        </li>
+                    }
 
-                    <li id="menuBill">
-                        <a class="ai-icon" href="/Transaction/BillList">
-                            <i class="flaticon-document"></i>
-                            <span class="nav-text">Bill</span>
-                        </a>
-                    </li>
+                    @if (HasRight("Bill", "View"))
+                    {
+                        <li id="menuBill">
+                            <a class="ai-icon" href="/Transaction/BillList">
+                                <i class="flaticon-document"></i>
+                                <span class="nav-text">Bill</span>
+                            </a>
+                        </li>
+                    }
 
-                    <li id="menuChallan">
-                        <a class="ai-icon" href="/Transaction/ChallanList">
-                            <i class="flaticon-document"></i>
-                            <span class="nav-text">Challan</span>
-                        </a>
-                    </li>
+                    @if (HasRight("Challan", "View"))
+                    {
+                        <li id="menuChallan">
+                            <a class="ai-icon" href="/Transaction/ChallanList">
+                                <i class="flaticon-document"></i>
+                                <span class="nav-text">Challan</span>
+                            </a>
+                        </li>
+                    }
 
                     <!-- CREATE DRS (USER ONLY) -->
                    @*  <li id="menuCreateDrs">

@@ -19,8 +19,8 @@ namespace TMS.Helpers
             string userName,
             string fullName,
             string role,
-            int idCompany,
-            int idLocation)
+            string userPermissionsJson
+            )
         {
             var key = Encoding.UTF8.GetBytes(
                 _config["Jwt:Key"] ?? throw new Exception("JWT key missing"));
@@ -38,9 +38,8 @@ namespace TMS.Helpers
                 new(ClaimTypes.Name, userName),
                 new("FullName", fullName),
                 new(ClaimTypes.Role, role),
-                new("IDCompany", idCompany.ToString()),
-                new("IDLocation", idLocation.ToString()),
-                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim("UserPermissions", userPermissionsJson)
             };
 
             var token = new JwtSecurityToken(

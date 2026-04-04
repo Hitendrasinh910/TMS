@@ -1,4 +1,5 @@
 ﻿using DRSPortal.Models.Account;
+using System.Text.Json;
 using TMS.Helpers;
 using TMS.Models.Account;
 using TMS.Models.Common;
@@ -11,13 +12,15 @@ namespace TMS.Services
     {
         private readonly MasterUserRepo _repo;
         private readonly JwtHelper _jwtHelper;
+        private readonly UserRightsRepo _userRightsRepo;
 
         public MasterUserService(
             MasterUserRepo repo,
-            JwtHelper jwtHelper)
+            JwtHelper jwtHelper, UserRightsRepo userRightsRepo)
         {
             _repo = repo;
             _jwtHelper = jwtHelper;
+            _userRightsRepo = userRightsRepo;
         }
 
         // ---------------------------------------------------------
@@ -97,6 +100,11 @@ namespace TMS.Services
                 };
             }
 
+            // 3. FETCH USER RIGHTS AND SERIALIZE TO JSON
+            // =================================================================
+            var userRights = await _userRightsRepo.GetUserRightsAsync(user.IDUser);
+            string rightsJson = JsonSerializer.Serialize(userRights);
+
             // 🔑 Generate JWT
             // Note: Uses null-coalescing to ensure IDs are passed correctly to the helper
             var token = _jwtHelper.GenerateToken(
@@ -104,8 +112,7 @@ namespace TMS.Services
                 user.UserName,
                 user.FullName,
                 user.UserType, // Assuming UserType acts as the Role in your Master_User table
-                0,             // Default Company if not in table
-                0);            // Default Location if not in table
+                rightsJson);            
 
             return new LoginResponse
             {

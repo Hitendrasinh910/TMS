@@ -60,6 +60,7 @@ builder.Services.AddScoped<TransactionLrRepo>();
 builder.Services.AddScoped<TransactionPaymentReceiveRepo>();
 builder.Services.AddScoped<TransactionBillRepo>();
 builder.Services.AddScoped<TransactionChallanRepo>();
+builder.Services.AddScoped<UserRightsRepo>();
 // Add other repos here...
 
 // Services
@@ -75,6 +76,7 @@ builder.Services.AddScoped<TransactionLrService>();
 builder.Services.AddScoped<TransactionPaymentReceiveService>();
 builder.Services.AddScoped<TransactionBillService>();
 builder.Services.AddScoped<TransactionChallanService>();
+builder.Services.AddScoped<UserRightsService>();
 // Add other services here...
 
 // ---------------------------------

@@ -64,16 +64,6 @@ async function fetchNextReceiptNo() {
 
 async function loadParties() {
     try {
-        //const res = await apiFetch(`${API_PARTY}/get-all`);
-        //const json = await res.json();
-        //if (json.success) {
-        //    let options = '<option value="">-- Select Party --</option>';
-        //    json.data.forEach(p => options += `<option value="${p.idPartyAccount}">${escapeHtml(p.partyName)}</option>`);
-        //    DOM.party().innerHTML = options;
-        //}
-
-        //$('.form-select, select').selectpicker('refresh');
-
         const [paymentTypeRes, paymentModeRes, partyRes, billRes] = await Promise.all([
             apiFetch(`${API}/get-all-payment-type`).then(r => r.json()),
             apiFetch(`${API}/get-all-payment-mode`).then(r => r.json()),
@@ -85,6 +75,8 @@ async function loadParties() {
         populateDropdown(DOM.mode(), paymentModeRes, "idPaymentMode", "paymentMode", "-- Select Payment Mode --");
         populateDropdown(DOM.party(), partyRes, "idPartyAccount", "partyName", "-- Select Party --");
         populateDropdown(DOM.billNo(), billRes, "idBill", "billNo", "-- Select City --");
+
+        $('.form-select, select').selectpicker('refresh');
     } catch (err) { console.error(err); }
 }
 

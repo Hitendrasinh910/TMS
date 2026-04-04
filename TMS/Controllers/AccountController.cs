@@ -8,5 +8,11 @@ namespace TMS.Controllers
         {
             return View();
         }
+
+        // Only Admins should ideally see this page
+        public IActionResult UserRights()
+        {
+            return View();
+        }
     }
 }
