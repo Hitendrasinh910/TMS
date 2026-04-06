@@ -13,6 +13,13 @@ const DOM = {
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
+
+    // Hide the "Create New LR" button if they lack the ADD right
+    const btnCreate = document.getElementById("btnCreateNewLR"); // Make sure your anchor tag has this ID
+    if (btnCreate && !hasUserRight("LR", "Add")) {
+        btnCreate.style.display = "none";
+    }
+
     await loadStates();
     await bindTable();
     entryModal = new bootstrap.Modal(DOM.modal(), { backdrop: "static" });

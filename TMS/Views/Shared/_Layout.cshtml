@@ -403,19 +403,25 @@
                         </a>
                     </li> *@
 
-                    <li id="menuUser">
-                        <a class="ai-icon" href="/Master/User">
-                            <i class="flaticon-user"></i>
-                            <span class="nav-text">User</span>
-                        </a>
-                    </li>
+                    @if (HasRight("User", "View"))
+                    {
+                        <li id="menuUser">
+                            <a class="ai-icon" href="/Master/User">
+                                <i class="flaticon-user"></i>
+                                <span class="nav-text">User</span>
+                            </a>
+                        </li>
+                    }
 
-                    <li id="menuUserRights">
-                        <a class="ai-icon" href="/Account/UserRights">
-                            <i class="flaticon-user"></i>
-                            <span class="nav-text">User Rights
-                        </a>
-                    </li>
+                    @if (HasRight("User Rights", "View"))
+                    {
+                        <li id="menuUserRights">
+                            <a class="ai-icon" href="/Account/UserRights">
+                                <i class="flaticon-user"></i>
+                                <span class="nav-text">User Rights
+                            </a>
+                        </li>
+                    }
 
                     <li class="menu-title" id="menuTransactionTitle">
                         <span>Transaction</span>
@@ -534,6 +540,33 @@
     <script src="~/TMSJs/common/home.js" asp-append-version="true"></script>
     <!-- Initialize Swiper -->
     <script>
+        // 1. Output the raw JSON string from C# into a global JS variable
+        const RAW_PERMISSIONS_JSON = '@Html.Raw(permissionsClaim ?? "[]")';
+        let GLOBAL_USER_PERMISSIONS = [];
+
+        try {
+            GLOBAL_USER_PERMISSIONS = JSON.parse(RAW_PERMISSIONS_JSON);
+        } catch (e) {
+            console.error("Failed to parse user permissions.", e);
+        }
+
+        // 2. Create a global JS helper function
+        function hasUserRight(formName, actionType) {
+            const right = GLOBAL_USER_PERMISSIONS.find(r =>
+                r.FormName.toLowerCase() === formName.toLowerCase()
+            );
+
+            if (!right) return false;
+
+            switch(actionType.toUpperCase()) {
+                case 'VIEW': return right.allowToView === true;
+                case 'ADD': return right.allowToAdd === true;
+                case 'UPDATE': return right.allowToUpdate === true;
+                case 'DELETE': return right.allowToDelete === true;
+                default: return false;
+            }
+        }
+
         var swiper = new Swiper(".mySwiper", {
             slidesPerView: 1.5,
             spaceBetween: 15,

@@ -15,6 +15,17 @@ const DOM = {
 // INIT
 // ======================================================
 document.addEventListener("DOMContentLoaded", async () => {
+    // 1. Check permissions and disable the Add button if necessary
+    const btnCreate = document.getElementById("btnCreateNewLR");
+    if (btnCreate && !hasUserRight("LR", "Add")) {
+        // Add Bootstrap's disabled class
+        btnCreate.classList.add("disabled");
+        // Remove the link so it can't be clicked or opened in a new tab
+        btnCreate.removeAttribute("href"); 
+        
+        // Optional: Change visually so it looks greyed out
+        //btnCreate.classList.replace("btn-primary", "btn-secondary"); 
+    }
     await bindTable();
 });
 
@@ -34,6 +45,10 @@ async function bindTable() {
         if ($.fn.DataTable.isDataTable(DOM.table())) {
             $(DOM.table()).DataTable().destroy();
         }
+
+        // 1. Get Rights
+        const canEdit = hasUserRight("LR", "Update");
+        const canDelete = hasUserRight("LR", "Delete");
 
         DOM.tbody().innerHTML = "";
 
@@ -56,14 +71,17 @@ async function bindTable() {
                 <td class="fw-bold">₹ ${totalAmt}</td>
                 <td>${escapeHtml(d.e_By || '-')}</td>
                 <td class="text-center">
-                    <div class="d-flex justify-content-center">
-                        <a href="/Transaction/LREntry?id=${d.idlr}" class="btn btn-primary shadow btn-xs sharp me-1" title="Edit">
-                            <i class="fa fa-pencil"></i>
-                        </a>
-                        <button type="button" onclick="deleteLR(${d.idlr})" class="btn btn-danger shadow btn-xs sharp" title="Delete">
-                            <i class="fa fa-trash"></i>
-                        </button>
-                    </div>
+                 <div class="d-flex">
+                    ${canEdit
+                    ? `<a href="/Transaction/LREntry?id=${d.idlr}" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fa fa-pencil"></i></a>`
+                    : `<button class="btn btn-primary shadow btn-xs sharp me-1 opacity-50" disabled><i class="fa fa-pencil"></i></button>`
+                    }
+
+                    ${canDelete
+                            ? `<button onclick="deleteLR(${d.idlr})" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></button>`
+                            : `<button class="btn btn-danger shadow btn-xs sharp opacity-50" disabled><i class="fa fa-trash"></i></button>`
+                    }
+                </div>
                 </td>
             `;
             DOM.tbody().appendChild(tr);

@@ -15,6 +15,14 @@ const DOM = {
 // INIT
 // ======================================================
 document.addEventListener("DOMContentLoaded", async () => {
+    const btnCreate = document.getElementById("btnCreateNewBill");
+
+    if (btnCreate) {
+        const hasAddRight = hasUserRight("Bill", "Add");
+        btnCreate.classList.toggle("disabled", !hasAddRight);
+        if (!hasAddRight) btnCreate.removeAttribute("href");
+    }
+
     await bindTable();
 });
 
@@ -51,6 +59,9 @@ async function bindTable() {
             // This maps to the alias 'BillToPartyName' we defined in our SQL SP
             const partyName = d.billToPartyName || 'Unknown';
 
+            const canEdit = hasUserRight("Bill", "Update");
+            const canDelete = hasUserRight("Bill", "Delete");
+
             tr.innerHTML = `
                 <td class="fw-bold text-primary">${escapeHtml(d.billNo || '-')}</td>
                 <td>${billDate}</td>
@@ -59,12 +70,15 @@ async function bindTable() {
                 <td>${escapeHtml(d.e_By || '-')}</td>
                 <td class="text-center">
                     <div class="d-flex justify-content-center">
-                        <a href="/Transaction/BillEntry?id=${d.idBill}" class="btn btn-primary shadow btn-xs sharp me-1" title="Edit">
-                            <i class="fa fa-pencil"></i>
-                        </a>
-                        <button type="button" onclick="deleteBill(${d.idBill})" class="btn btn-danger shadow btn-xs sharp" title="Delete">
-                            <i class="fa fa-trash"></i>
-                        </button>
+                        ${canEdit
+                        ? `<a href="/Transaction/BillEntry?id=${d.idBill}" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fa fa-pencil"></i></a>`
+                            : `<button class="btn btn-primary shadow btn-xs sharp me-1 opacity-50" disabled><i class="fa fa-pencil"></i></button>`
+                            }
+
+                            ${canDelete
+                        ? `<button onclick="deleteBill(${d.idBill})" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></button>`
+                            : `<button class="btn btn-danger shadow btn-xs sharp opacity-50" disabled><i class="fa fa-trash"></i></button>`
+                            }
                     </div>
                 </td>
             `;

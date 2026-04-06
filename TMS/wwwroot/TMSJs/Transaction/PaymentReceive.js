@@ -24,6 +24,13 @@ const DOM = {
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
+    const btnCreate = document.getElementById("btnCreateNewPayment");
+
+    if (btnCreate) {
+        const hasAddRight = hasUserRight("Payment", "Add");
+        btnCreate.classList.toggle("disabled", !hasAddRight);
+        if (!hasAddRight) btnCreate.removeAttribute("href");
+    }
     DOM.date().value = new Date().toISOString().split('T')[0];
 
     if (Number(DOM.id().value) === 0) {
@@ -103,6 +110,10 @@ async function bindTable() {
     if ($.fn.DataTable.isDataTable(DOM.table())) $(DOM.table()).DataTable().destroy();
     DOM.tbody().innerHTML = "";
 
+    const canEdit = hasUserRight("Payment", "Update");
+    const canDelete = hasUserRight("Payment", "Delete");
+
+
     json.data.forEach(d => {
         const dateStr = d.paymentDate ? new Date(d.paymentDate).toLocaleDateString('en-GB') : '-';
         const tr = document.createElement("tr");
@@ -113,10 +124,17 @@ async function bindTable() {
             <td>${escapeHtml(d.paymentMode || '-')}</td>
             <td class="fw-bold text-success">₹ ${parseFloat(d.amountReceived || 0).toFixed(2)}</td>
             <td class="text-center">
-                <div class="d-flex">
-                    <a href="javascript:void(0);" onclick="editEntry(${d.idPayment})" class="btn btn-primary btn-xs sharp me-1"><i class="fa fa-pencil"></i></a>
-                    <a href="javascript:void(0);" onclick="deleteEntry(${d.idPayment})" class="btn btn-danger btn-xs sharp"><i class="fa fa-trash"></i></a>
-                </div>
+                <div class="d-flex justify-content-center">
+                        ${canEdit
+                    ? `<button onclick="editEntry(${d.idPayment})" class="btn btn-primary shadow btn-xs sharp"><i class="fa fa-pencil"></i></button>`
+                        : `<button class="btn btn-primary shadow btn-xs sharp me-1 opacity-50" disabled><i class="fa fa-pencil"></i></button>`
+                    }
+
+                            ${canDelete
+            ? `<button onclick="deleteEntry(${d.idPayment})" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></button>`
+                : `<button class="btn btn-danger shadow btn-xs sharp opacity-50" disabled><i class="fa fa-trash"></i></button>`
+                            }
+                    </div>
             </td>`;
         DOM.tbody().appendChild(tr);
     });

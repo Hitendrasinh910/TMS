@@ -15,6 +15,13 @@ const DOM = {
 // INITIALIZATION
 // ======================================================
 document.addEventListener("DOMContentLoaded", async function () {
+    const btnCreate = document.getElementById("btnCreateNewChallan");
+
+    if (btnCreate) {
+        const hasAddRight = hasUserRight("Challan", "Add");
+        btnCreate.classList.toggle("disabled", !hasAddRight);
+        if (!hasAddRight) btnCreate.removeAttribute("href");
+    }
     await bindChallanTable();
 });
 
@@ -70,6 +77,9 @@ async function bindChallanTable() {
             // Create the table row element
             const tr = document.createElement("tr");
 
+            const canEdit = hasUserRight("Challan", "Update");
+            const canDelete = hasUserRight("Challan", "Delete");
+
             tr.innerHTML = `
                 <td class="fw-bold text-primary text-center">${escapeHtml(dataItem.voucherNo || '-')}</td>
                 <td class="text-center">${displayDate}</td>
@@ -79,13 +89,16 @@ async function bindChallanTable() {
                 <td class="text-end fw-bold text-success">₹ ${finalAmountDisplay}</td>
                 <td class="text-center">${escapeHtml(entryBy)}</td>
                 <td class="text-center">
-                    <div class="d-flex justify-content-center">
-                        <a href="/Transaction/ChallanEntry?id=${dataItem.idChallan}" class="btn btn-primary shadow btn-xs sharp me-1" title="Edit Challan">
-                            <i class="fa fa-pencil"></i>
-                        </a>
-                        <button type="button" onclick="deleteChallanRecord(${dataItem.idChallan})" class="btn btn-danger shadow btn-xs sharp" title="Delete Challan">
-                            <i class="fa fa-trash"></i>
-                        </button>
+                    <div class="d-flex">
+                    ${canEdit
+                        ? `<a href="/Transaction/ChallanEntry?id=${d.idChallan}" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fa fa-pencil"></i></a>`
+                            : `<button class="btn btn-primary shadow btn-xs sharp me-1 opacity-50" disabled><i class="fa fa-pencil"></i></button>`
+                        }
+
+                            ${canDelete
+                        ? `<button onclick="deleteChallanRecord(${d.idChallan})" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></button>`
+                            : `<button class="btn btn-danger shadow btn-xs sharp opacity-50" disabled><i class="fa fa-trash"></i></button>`
+                            }
                     </div>
                 </td>
             `;
