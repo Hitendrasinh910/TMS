@@ -1,6 +1,4 @@
-﻿using TMS.Models.Account;
-
-namespace DRSPortal.Models.Account
+﻿namespace TMS.Models.Account
 {
     public class LoginResponse
     {
