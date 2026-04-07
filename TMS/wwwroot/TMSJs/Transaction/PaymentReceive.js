@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (btnCreate) {
         const hasAddRight = hasUserRight("Payment", "Add");
         btnCreate.classList.toggle("disabled", !hasAddRight);
-        if (!hasAddRight) btnCreate.removeAttribute("href");
+        //if (!hasAddRight) btnCreate.removeAttribute("href");
     }
     DOM.date().value = new Date().toISOString().split('T')[0];
 
@@ -125,16 +125,16 @@ async function bindTable() {
             <td class="fw-bold text-success">₹ ${parseFloat(d.amountReceived || 0).toFixed(2)}</td>
             <td class="text-center">
                 <div class="d-flex justify-content-center">
-                        ${canEdit
-                    ? `<button onclick="editEntry(${d.idPayment})" class="btn btn-primary shadow btn-xs sharp"><i class="fa fa-pencil"></i></button>`
+                    ${canEdit
+                    ? `<button onclick="editEntry(${d.idPayment})" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fa fa-pencil"></i></button>`
                         : `<button class="btn btn-primary shadow btn-xs sharp me-1 opacity-50" disabled><i class="fa fa-pencil"></i></button>`
                     }
 
-                            ${canDelete
-            ? `<button onclick="deleteEntry(${d.idPayment})" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></button>`
-                : `<button class="btn btn-danger shadow btn-xs sharp opacity-50" disabled><i class="fa fa-trash"></i></button>`
-                            }
-                    </div>
+                    ${canDelete
+                    ? `<button onclick="deleteEntry(${d.idPayment})" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></button>`
+                        : `<button class="btn btn-danger shadow btn-xs sharp opacity-50" disabled><i class="fa fa-trash"></i></button>`
+                     }
+                 </div>
             </td>`;
         DOM.tbody().appendChild(tr);
     });

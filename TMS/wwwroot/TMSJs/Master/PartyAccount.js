@@ -44,6 +44,14 @@ const DOM = {
 // INIT
 // ======================================================
 document.addEventListener("DOMContentLoaded", async () => {
+    const btnCreate = document.getElementById("btnCreateNewPartyAccount");
+
+    if (btnCreate) {
+        const hasAddRight = hasUserRight("Party Account", "Add");
+        btnCreate.classList.toggle("disabled", !hasAddRight);
+        //if (!hasAddRight) btnCreate.removeAttribute("href");
+    }
+
     DOM.modal().addEventListener("shown.bs.modal", async () => {
         // Fetch the next Sr No ONLY if it's a new entry (ID is 0)
         if (Number(DOM.id().value) === 0) {
@@ -136,6 +144,9 @@ async function bindTable() {
         const tbody = DOM.tbody();
         tbody.innerHTML = "";
 
+        const canEdit = hasUserRight("Party Account", "Update");
+        const canDelete = hasUserRight("Party Account", "Delete");
+
         json.data.forEach(d => {
             const tr = document.createElement("tr");
             tr.id = `row-${d.idPartyAccount}`;
@@ -150,10 +161,17 @@ async function bindTable() {
                 <td>${escapeHtml(d.cityName || '-')},${escapeHtml(d.stateName || '-')}</td>
                 <td>₹ ${balanceDisplay}</td>
                 <td class="text-center">
-                    <div class="d-flex">
-                        <a href="javascript:void(0);" onclick="editEntry(${d.idPartyAccount})" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fa fa-pencil"></i></a>
-                        <a href="javascript:void(0);" onclick="deleteEntry(${d.idPartyAccount})" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
-                    </div>
+                    <div class="d-flex justify-content-center">
+                    ${canEdit
+                    ? `<button onclick="editEntry(${d.idPartyAccount})" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fa fa-pencil"></i></button>`
+                        : `<button class="btn btn-primary shadow btn-xs sharp me-1 opacity-50" disabled><i class="fa fa-pencil"></i></button>`
+                    }
+
+                    ${canDelete
+                    ? `<button onclick="deleteEntry(${d.idPartyAccount})" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></button>`
+                        : `<button class="btn btn-danger shadow btn-xs sharp opacity-50" disabled><i class="fa fa-trash"></i></button>`
+                     }
+                 </div>
                 </td>
             `;
             tbody.appendChild(tr);

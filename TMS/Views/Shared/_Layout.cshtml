@@ -559,10 +559,10 @@
             if (!right) return false;
 
             switch(actionType.toUpperCase()) {
-                case 'VIEW': return right.allowToView === true;
-                case 'ADD': return right.allowToAdd === true;
-                case 'UPDATE': return right.allowToUpdate === true;
-                case 'DELETE': return right.allowToDelete === true;
+                case 'VIEW': return right.AllowToView === true;
+                case 'ADD': return right.AllowToAdd === true;
+                case 'UPDATE': return right.AllowToUpdate === true;
+                case 'DELETE': return right.AllowToDelete === true;
                 default: return false;
             }
         }

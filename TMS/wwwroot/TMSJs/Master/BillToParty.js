@@ -26,6 +26,13 @@ const DOM = {
 // INIT
 // ======================================================
 document.addEventListener("DOMContentLoaded", async () => {
+    const btnCreate = document.getElementById("btnCreateNewBillToParty");
+
+    if (btnCreate) {
+        const hasAddRight = hasUserRight("Bill To Party", "Add");
+        btnCreate.classList.toggle("disabled", !hasAddRight);
+    }
+
     await loadParties();
     await bindTable();
 
@@ -93,6 +100,9 @@ async function bindTable() {
     if ($.fn.DataTable.isDataTable(DOM.table())) $(DOM.table()).DataTable().destroy();
     DOM.tbody().innerHTML = "";
 
+    const canEdit = hasUserRight("Bill To Party", "Update");
+    const canDelete = hasUserRight("Bill To Party", "Delete");
+
     json.data.forEach(d => {
         const tr = document.createElement("tr");
         tr.innerHTML = `
@@ -101,10 +111,17 @@ async function bindTable() {
             <td class="fw-semibold text-info">${escapeHtml(d.consigneeName || 'Unknown')}</td>
             <td class="fw-semibold text-success">${escapeHtml(d.billToName || 'Unknown')}</td>
             <td class="text-center">
-               <div class="d-flex">
-                <a href="javascript:void(0);" onclick="editEntry(${d.idPartyBill})" class="btn btn-primary btn-xs sharp me-1"><i class="fa fa-pencil"></i></a>
-                <a href="javascript:void(0);" onclick="deleteEntry(${d.idPartyBill})" class="btn btn-danger btn-xs sharp"><i class="fa fa-trash"></i></a>
-                </div>
+            <div class="d-flex justify-content-center">
+                    ${canEdit
+            ? `<button onclick="editEntry(${d.idPartyBill})" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fa fa-pencil"></i></button>`
+                : `<button class="btn btn-primary shadow btn-xs sharp me-1 opacity-50" disabled><i class="fa fa-pencil"></i></button>`
+            }
+
+                    ${canDelete
+            ? `<button onclick="deleteEntry(${d.idPartyBill})" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></button>`
+                : `<button class="btn btn-danger shadow btn-xs sharp opacity-50" disabled><i class="fa fa-trash"></i></button>`
+                     }
+                    </div>
            </td>`;
         DOM.tbody().appendChild(tr);
     });

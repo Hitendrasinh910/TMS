@@ -22,6 +22,13 @@ const DOM = {
 // INIT
 // ======================================================
 document.addEventListener("DOMContentLoaded", async () => {
+    const btnCreate = document.getElementById("btnCreateNewState");
+
+    if (btnCreate) {
+        const hasAddRight = hasUserRight("State", "Add");
+        btnCreate.classList.toggle("disabled", !hasAddRight);
+        //if (!hasAddRight) btnCreate.removeAttribute("href");
+    }
 
     await loadCountries();
     await bindTable();
@@ -78,6 +85,9 @@ async function bindTable() {
         const tbody = DOM.tbody();
         tbody.innerHTML = "";
 
+        const canEdit = hasUserRight("State", "Update");
+        const canDelete = hasUserRight("State", "Delete");
+
         // Assuming your backend query does a JOIN to get the CountryName, 
         // if not, you might just display ID or handle it via a map. 
         // We'll fallback to idCountry if countryName isn't returned from the API.
@@ -92,10 +102,17 @@ async function bindTable() {
                 <td>${escapeHtml(d.countryName || '')}</td>
                 <td>${formatDateTime(d.e_Date)}</td>
                 <td class="text-center">
-                    <div class="d-flex">
-                        <a href="javascript:void(0);" onclick="editEntry(${d.idState})" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fa fa-pencil"></i></a>
-                        <a href="javascript:void(0);" onclick="deleteEntry(${d.idState})" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
-                    </div>
+                    <div class="d-flex justify-content-center">
+                    ${canEdit
+                    ? `<button onclick="editEntry(${d.idState})" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fa fa-pencil"></i></button>`
+                    : `<button class="btn btn-primary shadow btn-xs sharp me-1 opacity-50" disabled><i class="fa fa-pencil"></i></button>`
+                    }
+
+                    ${canDelete
+                    ? `<button onclick="deleteEntry(${d.idState})" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></button>`
+                    : `<button class="btn btn-danger shadow btn-xs sharp opacity-50" disabled><i class="fa fa-trash"></i></button>`
+                     }
+                 </div>
                 </td>
             `;
             tbody.appendChild(tr);

@@ -20,6 +20,13 @@ const DOM = {
 // INIT
 // ======================================================
 document.addEventListener("DOMContentLoaded", async () => {
+    const btnCreate = document.getElementById("btnCreateNewCountry");
+
+    if (btnCreate) {
+        const hasAddRight = hasUserRight("Country", "Add");
+        btnCreate.classList.toggle("disabled", !hasAddRight);
+        //if (!hasAddRight) btnCreate.removeAttribute("href");
+    }
 
     await bindTable();
 
@@ -55,6 +62,9 @@ async function bindTable() {
         const tbody = DOM.tbody();
         tbody.innerHTML = "";
 
+        const canEdit = hasUserRight("Country", "Update");
+        const canDelete = hasUserRight("Country", "Delete");
+
         json.data.forEach(d => {
             const tr = document.createElement("tr");
             tr.id = `row-${d.idCountry}`;
@@ -66,10 +76,17 @@ async function bindTable() {
                 <td>${escapeHtml(d.e_By || 'System')}</td>
                 <td>${formatDateTime(d.e_Date)}</td>
                 <td class="text-center">
-                    <div class="d-flex">
-                        <a href="javascript:void(0);" onclick="editEntry(${d.idCountry})" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fa fa-pencil"></i></a>
-                        <a href="javascript:void(0);" onclick="deleteEntry(${d.idCountry})" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
-                    </div>
+                    <div class="d-flex justify-content-center">
+                    ${canEdit
+                    ? `<button onclick="editEntry(${d.idCountry})" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fa fa-pencil"></i></button>`
+                        : `<button class="btn btn-primary shadow btn-xs sharp me-1 opacity-50" disabled><i class="fa fa-pencil"></i></button>`
+                    }
+
+                    ${canDelete
+                    ? `<button onclick="deleteEntry(${d.idCountry})" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></button>`
+                        : `<button class="btn btn-danger shadow btn-xs sharp opacity-50" disabled><i class="fa fa-trash"></i></button>`
+                     }
+                 </div>
                 </td>
             `;
             tbody.appendChild(tr);

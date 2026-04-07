@@ -25,6 +25,14 @@ const DOM = {
 // ======================================================
 document.addEventListener("DOMContentLoaded", async () => {
 
+    const btnCreate = document.getElementById("btnCreateNewUser");
+
+    if (btnCreate) {
+        const hasAddRight = hasUserRight("User", "Add");
+        btnCreate.classList.toggle("disabled", !hasAddRight);
+        //if (!hasAddRight) btnCreate.removeAttribute("href");
+    }
+
     await loadDropdown();
     await bindTable();
 
@@ -102,6 +110,10 @@ async function bindTable() {
         const tbody = DOM.tbody();
         tbody.innerHTML = "";
 
+
+        const canEdit = hasUserRight("User", "Update");
+        const canDelete = hasUserRight("User", "Delete");
+
         json.data.forEach(d => {
             const tr = document.createElement("tr");
             tr.id = `row-${d.idUser}`;
@@ -112,14 +124,17 @@ async function bindTable() {
                 <td><span class="badge bg-info">${escapeHtml(d.userType || "USER")}</span></td>
                 <td>${escapeHtml(d.contactNo || "-")}</td>
                 <td class="text-center">
-                    <div class="d-flex">
-                        <a href="javascript:void(0);" onclick="editEntry(${d.idUser})" class="btn btn-primary shadow btn-xs sharp me-1">
-                            <i class="fa fa-pencil"></i>
-                        </a>
-                        <a href="javascript:void(0);" onclick="deleteEntry(${d.idUser})" class="btn btn-danger shadow btn-xs sharp">
-                            <i class="fa fa-trash"></i>
-                        </a>
-                    </div>
+                    <div class="d-flex justify-content-center">
+                    ${canEdit
+                    ? `<button onclick="editEntry(${d.idUser})" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fa fa-pencil"></i></button>`
+                        : `<button class="btn btn-primary shadow btn-xs sharp me-1 opacity-50" disabled><i class="fa fa-pencil"></i></button>`
+                    }
+
+                    ${canDelete
+                    ? `<button onclick="deleteEntry(${d.idUser})" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></button>`
+                        : `<button class="btn btn-danger shadow btn-xs sharp opacity-50" disabled><i class="fa fa-trash"></i></button>`
+                     }
+                 </div>
                 </td>
             `;
             tbody.appendChild(tr);

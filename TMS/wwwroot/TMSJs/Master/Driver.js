@@ -26,6 +26,13 @@ const DOM = {
 // INIT
 // ======================================================
 document.addEventListener("DOMContentLoaded", async () => {
+
+    const btnCreate = document.getElementById("btnCreateNewDriver");
+
+    if (btnCreate) {
+        const hasAddRight = hasUserRight("Driver", "Add");
+        btnCreate.classList.toggle("disabled", !hasAddRight);
+    }
     await bindTable();
 
     entryModal = new bootstrap.Modal(DOM.modal(), { backdrop: "static" });
@@ -54,6 +61,9 @@ async function bindTable() {
 
         DOM.tbody().innerHTML = "";
 
+        const canEdit = hasUserRight("Driver", "Update");
+        const canDelete = hasUserRight("Driver", "Delete");
+
         json.data.forEach(d => {
             const tr = document.createElement("tr");
 
@@ -66,10 +76,17 @@ async function bindTable() {
                 <td>${escapeHtml(d.drivingLicenceNo || '-')}</td>
                 <td>${dlDate}</td>
                 <td class="text-center">
-                    <div class="d-flex">
-                        <a href="javascript:void(0);" onclick="editEntry(${d.idDriver})" class="btn btn-primary btn-xs sharp me-1"><i class="fa fa-pencil"></i></a>
-                        <a href="javascript:void(0);" onclick="deleteEntry(${d.idDriver})" class="btn btn-danger btn-xs sharp"><i class="fa fa-trash"></i></a>
-                    </div>
+                    <div class="d-flex justify-content-center">
+                    ${canEdit
+                    ? `<button onclick="editEntry(${d.idDriver})" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fa fa-pencil"></i></button>`
+                        : `<button class="btn btn-primary shadow btn-xs sharp me-1 opacity-50" disabled><i class="fa fa-pencil"></i></button>`
+                    }
+
+                    ${canDelete
+                    ? `<button onclick="deleteEntry(${d.idDriver})" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></button>`
+                        : `<button class="btn btn-danger shadow btn-xs sharp opacity-50" disabled><i class="fa fa-trash"></i></button>`
+                     }
+                 </div>
                 </td>`;
             DOM.tbody().appendChild(tr);
         });

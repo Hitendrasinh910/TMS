@@ -14,10 +14,11 @@ const DOM = {
 
 document.addEventListener("DOMContentLoaded", async () => {
 
-    // Hide the "Create New LR" button if they lack the ADD right
-    const btnCreate = document.getElementById("btnCreateNewLR"); // Make sure your anchor tag has this ID
-    if (btnCreate && !hasUserRight("LR", "Add")) {
-        btnCreate.style.display = "none";
+    const btnCreate = document.getElementById("btnCreateNewCity");
+
+    if (btnCreate) {
+        const hasAddRight = hasUserRight("City", "Add");
+        btnCreate.classList.toggle("disabled", !hasAddRight);
     }
 
     await loadStates();
@@ -51,15 +52,25 @@ async function bindTable() {
         if ($.fn.DataTable.isDataTable(DOM.table())) $(DOM.table()).DataTable().destroy();
         DOM.tbody().innerHTML = "";
 
+        const canEdit = hasUserRight("City", "Update");
+        const canDelete = hasUserRight("City", "Delete");
+
         json.data.forEach(d => {
             const tr = document.createElement("tr");
             tr.innerHTML = `
                 <td class="fw-semibold">${escapeHtml(d.city)}</td>
                 <td>${escapeHtml(d.stateName || '')}</td>
                 <td class="text-center">
-                    <div class="d-flex">
-                        <a href="javascript:void(0);" onclick="editEntry(${d.idCity})" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fa fa-pencil"></i></a>
-                        <a href="javascript:void(0);" onclick="deleteEntry(${d.idCity})" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
+                    <div class="d-flex justify-content-center">
+                    ${canEdit
+                    ? `<button onclick="editEntry(${d.idCity})" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fa fa-pencil"></i></button>`
+                        : `<button class="btn btn-primary shadow btn-xs sharp me-1 opacity-50" disabled><i class="fa fa-pencil"></i></button>`
+                    }
+
+                    ${canDelete
+                    ? `<button onclick="deleteEntry(${d.idCity})" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></button>`
+                        : `<button class="btn btn-danger shadow btn-xs sharp opacity-50" disabled><i class="fa fa-trash"></i></button>`
+                     }
                     </div>
                  </td>`;
             DOM.tbody().appendChild(tr);
