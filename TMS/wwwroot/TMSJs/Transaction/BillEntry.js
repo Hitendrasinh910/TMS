@@ -152,6 +152,26 @@ function populateDropdown(selectElement, responseJson, valueProp, textProp, defa
     }
 }
 
+function refreshLRDropdownOptions() {
+    const selectedLRIds = gridItems.map(x => Number(x.idlr));
+
+    let optionsHtml = `<option value="">-- Select LR --</option>`;
+
+    for (let i = 0; i < lrData.length; i++) {
+        const item = lrData[i];
+        const lrId = Number(item.idlr);
+
+        if (!selectedLRIds.includes(lrId)) {
+            optionsHtml += `<option value="${item.idlr}">${escapeHtml(item.lrNo)}</option>`;
+        }
+    }
+
+    DOM.inLR().innerHTML = optionsHtml;
+    DOM.inLR().value = "";
+
+    $('.form-select, select').selectpicker('refresh');
+}
+
 // ======================================================
 // EVENT HANDLERS & CALCULATIONS
 // ======================================================
@@ -198,6 +218,16 @@ function addGridItem() {
         return;
     }
 
+    const selectedLRId = Number(DOM.inLR().value);
+
+    // Prevent duplicate LR selection
+    const alreadyExists = gridItems.some(x => Number(x.idlr) === selectedLRId);
+    if (alreadyExists) {
+        showToast("warning", "This LR is already added in details.", "Challan Entry");
+        return;
+    }
+
+
     // 2. Fetch Display Text for UI
     const lrText = DOM.inLR().options[DOM.inLR().selectedIndex].text;
     const fromText = DOM.inFrom().value ? DOM.inFrom().options[DOM.inFrom().selectedIndex].text : '';
@@ -237,6 +267,9 @@ function addGridItem() {
     DOM.inRate().value = "0.00";
     DOM.inExtra().value = "0.00";
     DOM.inAmt().value = "0.00";
+
+    // Rebuild LR dropdown excluding already selected LRs
+    refreshLRDropdownOptions();
 }
 
 function removeGridItem(idTemp) {

@@ -50,6 +50,9 @@ async function bindChallanTable() {
         // 4. Clear the table body
         DOM.tbody().innerHTML = "";
 
+        const canEdit = hasUserRight("Challan", "Update");
+        const canDelete = hasUserRight("Challan", "Delete");
+
         // 5. Iterate through the data and build HTML rows
         const challanData = jsonResponse.data;
 
@@ -77,9 +80,6 @@ async function bindChallanTable() {
             // Create the table row element
             const tr = document.createElement("tr");
 
-            const canEdit = hasUserRight("Challan", "Update");
-            const canDelete = hasUserRight("Challan", "Delete");
-
             tr.innerHTML = `
                 <td class="fw-bold text-primary text-center">${escapeHtml(dataItem.voucherNo || '-')}</td>
                 <td class="text-center">${displayDate}</td>
@@ -91,12 +91,12 @@ async function bindChallanTable() {
                 <td class="text-center">
                     <div class="d-flex">
                     ${canEdit
-                        ? `<a href="/Transaction/ChallanEntry?id=${d.idChallan}" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fa fa-pencil"></i></a>`
+                ? `<a href="/Transaction/ChallanEntry?id=${dataItem.idChallan}" class="btn btn-primary shadow btn-xs sharp me-1"><i class="fa fa-pencil"></i></a>`
                             : `<button class="btn btn-primary shadow btn-xs sharp me-1 opacity-50" disabled><i class="fa fa-pencil"></i></button>`
                         }
 
                             ${canDelete
-                        ? `<button onclick="deleteChallanRecord(${d.idChallan})" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></button>`
+                ? `<button onclick="deleteChallanRecord(${dataItem.idChallan})" class="btn btn-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></button>`
                             : `<button class="btn btn-danger shadow btn-xs sharp opacity-50" disabled><i class="fa fa-trash"></i></button>`
                             }
                     </div>

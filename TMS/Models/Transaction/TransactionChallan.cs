@@ -39,5 +39,9 @@ namespace TMS.Models.Transaction
         public DateTime? BalanceChequeDate { get; set; }
         public string Remarks { get; set; }
         public int? IDChallanEntryBy { get; set; }
+
+        // Relation fields
+        public string? TruckNumber { get; set; }
+        public string? ConsigneeName { get; set; }
     }
 }

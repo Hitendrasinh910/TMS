@@ -198,6 +198,26 @@ function populateDropdownHtml(selectElement, jsonResponse, valueProperty, textPr
     selectElement.innerHTML = optionsHtml;
 }
 
+function refreshLRDropdownOptions() {
+    const selectedLRIds = gridItems.map(x => Number(x.idlr));
+
+    let optionsHtml = `<option value="">-- Select LR --</option>`;
+
+    for (let i = 0; i < cachedLRData.length; i++) {
+        const item = cachedLRData[i];
+        const lrId = Number(item.idlr);
+
+        if (!selectedLRIds.includes(lrId)) {
+            optionsHtml += `<option value="${item.idlr}">${escapeHtml(item.lrNo)}</option>`;
+        }
+    }
+
+    DOM.inLR().innerHTML = optionsHtml;
+    DOM.inLR().value = "";
+
+    $('.form-select, select').selectpicker('refresh');
+}
+
 // ======================================================
 // GRID LOGIC
 // ======================================================
@@ -226,14 +246,23 @@ function addGridItemToArray() {
         return;
     }
 
+    const selectedLRId = Number(DOM.inLR().value);
+
+    // Prevent duplicate LR selection
+    const alreadyExists = gridItems.some(x => Number(x.idlr) === selectedLRId);
+    if (alreadyExists) {
+        showToast("warning", "This LR is already added in details.", "Challan Entry");
+        return;
+    }
+
     // Get the display text of the selected dropdown item
     const selectedLRIndex = DOM.inLR().selectedIndex;
     const lrDisplayText = DOM.inLR().options[selectedLRIndex].text;
 
     // Create the object
     const newItem = {
-        idTemp: Date.now(), // Used purely for UI deletion
-        idlr: Number(DOM.inLR().value),
+        idTemp: Date.now(),
+        idlr: selectedLRId,
         lrNo: lrDisplayText,
         lrDate: DOM.inLRDate().value,
         methodOfPacking: DOM.inPack().value,
@@ -250,8 +279,7 @@ function addGridItemToArray() {
     gridItems.push(newItem);
     renderGridTable();
 
-    // Clear the input row
-    DOM.inLR().value = "";
+    // Clear input row
     DOM.inLRDate().value = "";
     DOM.inPack().value = "";
     DOM.inDesc().value = "";
@@ -261,6 +289,9 @@ function addGridItemToArray() {
     DOM.inWt().value = "0.00";
     DOM.inRate().value = "0.00";
     DOM.inAmt().value = "0.00";
+
+    // Rebuild LR dropdown excluding already selected LRs
+    refreshLRDropdownOptions();
 }
 
 function removeGridItemFromArray(tempIdToRemove) {

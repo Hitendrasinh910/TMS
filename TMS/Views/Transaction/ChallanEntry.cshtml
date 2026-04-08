@@ -6,23 +6,24 @@
     <div class="col-12">
         <div class="card">
 
-            <div class="card-header d-flex justify-content-between align-items-center">
+            <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2">
                 <h4 class="card-title mb-0">Challan Details</h4>
-                <div>
+                <div class="d-flex flex-column flex-sm-row gap-2">
                     <button class="btn btn-primary" id="btnSave">
-                        <i class="fa fa-save"></i> Save / Update
+                        <i class="fa fa-save me-1"></i> Save / Update
                     </button>
                     <a href="/Transaction/ChallanList" class="btn btn-danger">
-                        <i class="fa fa-times"></i> Close
+                        <i class="fa fa-times me-1"></i> Close
                     </a>
                 </div>
             </div>
 
-            <div class="card-body bg-light">
+            <div class="card-body">
                 <form id="challanForm" autocomplete="off">
                     <input type="hidden" id="hdnId" value="0" />
 
-                    <div class="row g-3 mb-3">
+                    <!-- Top Fields -->
+                    <div class="row g-3">
                         <div class="col-md-2">
                             <label class="form-label">Voucher No</label>
                             <input type="text" class="form-control" id="txtVoucher" readonly placeholder="Auto">
@@ -43,9 +44,7 @@
                             <label class="form-label">Pan Card No</label>
                             <input type="text" class="form-control" id="txtPanNo">
                         </div>
-                    </div>
 
-                    <div class="row g-3 mb-4 pb-4 border-bottom">
                         <div class="col-md-2">
                             <label class="form-label">Select Bill No</label>
                             <select class="form-control form-select" id="ddlBill"></select>
@@ -72,151 +71,235 @@
                         </div>
                     </div>
 
-                    <h5 class="mb-3">Details</h5>
-                    <div class="table-responsive mb-4">
-                        <table class="table table-bordered table-sm bg-white" id="tblItems">
-                            <thead class="table-primary text-center">
-                                <tr>
-                                    <th style="width: 10%">LR No</th>
-                                    <th style="width: 10%">LR Date</th>
-                                    <th style="width: 12%">Method Pack</th>
-                                    <th style="width: 18%">Description</th>
-                                    <th style="width: 10%">Packages</th>
-                                    <th style="width: 10%">Freight On</th>
-                                    <th style="width: 10%">Fix</th>
-                                    <th style="width: 10%">Weight</th>
-                                    <th style="width: 10%">Rate</th>
-                                    <th style="width: 10%">Amount</th>
-                                    <th style="width: 4%">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id="gridBody">
-                            </tbody>
-                            <tfoot class="bg-light border-top border-2">
-                                <tr>
-                                    <td>
-                                        <select class="form-select form-select-sm" id="inLR">
-                                            <option value="">-- LR No --</option>
-                                        </select>
-                                    </td>
-                                    <td><input type="date" class="form-control form-control-sm" id="inLRDate" readonly></td>
-                                    <td><input type="text" class="form-control form-control-sm" id="inPack"></td>
-                                    <td><input type="text" class="form-control form-control-sm" id="inDesc"></td>
-                                    <td><input type="text" class="form-control form-control-sm" id="inPkgs"></td>
-                                    <td>
-                                        <select class="form-control form-select form-select-sm calc-grid" id="inFreightOn">
-                                            <option value="Fix">Fix</option>
-                                            <option value="Weight">Weight</option>
-                                        </select>
-                                    </td>
-                                    <td><input type="number" class="form-control form-control-sm text-end calc-grid" id="inFix" value="0.00"></td>
-                                    <td><input type="number" class="form-control form-control-sm text-end calc-grid" id="inWt" value="0.00"></td>
-                                    <td><input type="number" class="form-control form-control-sm text-end calc-grid" id="inRate" value="0.00"></td>
-                                    <td><input type="number" class="form-control form-control-sm text-end bg-white" id="inAmt" readonly value="0.00"></td>
-                                    <td class="text-center">
-                                        <button type="button" class="btn btn-success btn-sm" id="btnAddGridRow">
-                                            <i class="fa fa-plus"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
+                    <hr class="my-4" />
 
-                    <div class="row">
-                        <div class="col-md-7 pe-4">
-                            <label class="form-label fw-bold">Remarks</label>
-                            <textarea class="form-control" id="txtRemarks" rows="10"></textarea>
+                    <!-- Row 1 : Details + Calculation -->
+                    <div class="row g-3 align-items-start">
+                        <div class="col-xl-8">
+                            <h5 class="mb-2">Details</h5>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-sm align-middle mb-0" id="tblItems">
+                                    <thead class="table-primary text-center">
+                                        <tr>
+                                            <th>LR No</th>
+                                            <th>LR Date</th>
+                                            <th>Method Pack</th>
+                                            <th>Description</th>
+                                            <th>Packages</th>
+                                            <th>Freight On</th>
+                                            <th>Fix</th>
+                                            <th>Weight</th>
+                                            <th>Rate</th>
+                                            <th>Amount</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="gridBody">
+                                    </tbody>
+                                    <tfoot class="table-light">
+                                        <tr>
+                                            <td>
+                                                <select class="form-select form-select-sm" id="inLR">
+                                                    <option value="">-- LR No --</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="date" class="form-control form-control-sm" id="inLRDate" readonly>
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control form-control-sm" id="inPack">
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control form-control-sm" id="inDesc">
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control form-control-sm" id="inPkgs">
+                                            </td>
+                                            <td>
+                                                <select class="form-control form-select form-select-sm calc-grid" id="inFreightOn">
+                                                    <option value="Fix">Fix</option>
+                                                    <option value="Weight">Weight</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="number" class="form-control form-control-sm text-end calc-grid" id="inFix" value="0.00">
+                                            </td>
+                                            <td>
+                                                <input type="number" class="form-control form-control-sm text-end calc-grid" id="inWt" value="0.00">
+                                            </td>
+                                            <td>
+                                                <input type="number" class="form-control form-control-sm text-end calc-grid" id="inRate" value="0.00">
+                                            </td>
+                                            <td>
+                                                <input type="number" class="form-control form-control-sm text-end" id="inAmt" readonly value="0.00">
+                                            </td>
+                                            <td class="text-center">
+                                                <button type="button" class="btn btn-success btn-sm" id="btnAddGridRow">
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
                         </div>
 
-                        <div class="col-md-5 ps-2">
-                            <div class="card bg-white shadow-sm p-3 mb-3">
-                                <h6 class="border-bottom pb-2 mb-3 text-secondary">Calculation</h6>
+                        <div class="col-xl-4">
+                            <div class="card h-100">
+                                <div class="card-header py-2">
+                                    <h6 class="mb-0">Calculation</h6>
+                                </div>
+                                <div class="card-body">
 
-                                <div class="row g-2 align-items-center mb-1">
-                                    <div class="col-5 text-end">Freight :</div>
-                                    <div class="col-7"><input type="number" class="form-control form-control-sm text-end bg-light fw-bold calc-main" id="txtFreight" readonly value="0.00"></div>
-                                </div>
-                                <div class="row g-2 align-items-center mb-1">
-                                    <div class="col-5 text-end">Extra :</div>
-                                    <div class="col-7"><input type="number" class="form-control form-control-sm text-end calc-main" id="txtExtra" value="0.00"></div>
-                                </div>
-                                <div class="row g-2 align-items-center mb-3 pb-2 border-bottom">
-                                    <div class="col-5 text-end fw-bold">Final Amount :</div>
-                                    <div class="col-7"><input type="number" class="form-control form-control-sm text-end bg-light fw-bold text-primary calc-main" id="txtFinal" readonly value="0.00"></div>
-                                </div>
+                                    <div class="row g-2 align-items-center mb-2">
+                                        <div class="col-5 text-end">Freight :</div>
+                                        <div class="col-7">
+                                            <input type="number" class="form-control form-control-sm text-end bg-light fw-bold calc-main" id="txtFreight" readonly value="0.00">
+                                        </div>
+                                    </div>
 
-                                <div class="row g-2 align-items-center mb-1">
-                                    <div class="col-5 text-end">Cash :</div>
-                                    <div class="col-7"><input type="number" class="form-control form-control-sm text-end calc-main" id="txtCash" value="0.00"></div>
-                                </div>
-                                <div class="row g-2 align-items-center mb-1">
-                                    <div class="col-5 text-end">Cheque 1 Amount :</div>
-                                    <div class="col-7"><input type="number" class="form-control form-control-sm text-end calc-main" id="txtChq1Amt" value="0.00"></div>
-                                </div>
-                                <div class="row g-2 align-items-center mb-1">
-                                    <div class="col-5 text-end">Cheque 1 No :</div>
-                                    <div class="col-7"><input type="text" class="form-control form-control-sm" id="txtChq1No"></div>
-                                </div>
-                                <div class="row g-2 align-items-center mb-1">
-                                    <div class="col-5 text-end">Cheque 1 Date :</div>
-                                    <div class="col-7"><input type="date" class="form-control form-control-sm" id="txtChq1Date"></div>
-                                </div>
+                                    <div class="row g-2 align-items-center mb-2">
+                                        <div class="col-5 text-end">Extra :</div>
+                                        <div class="col-7">
+                                            <input type="number" class="form-control form-control-sm text-end calc-main" id="txtExtra" value="0.00">
+                                        </div>
+                                    </div>
 
-                                <div class="row g-2 align-items-center mb-1 mt-3">
-                                    <div class="col-5 text-end">Cheque 2 Amount :</div>
-                                    <div class="col-7"><input type="number" class="form-control form-control-sm text-end calc-main" id="txtChq2Amt" value="0.00"></div>
-                                </div>
-                                <div class="row g-2 align-items-center mb-1">
-                                    <div class="col-5 text-end">Cheque 2 No :</div>
-                                    <div class="col-7"><input type="text" class="form-control form-control-sm" id="txtChq2No"></div>
-                                </div>
-                                <div class="row g-2 align-items-center mb-1">
-                                    <div class="col-5 text-end">Cheque 2 Date :</div>
-                                    <div class="col-7"><input type="date" class="form-control form-control-sm" id="txtChq2Date"></div>
-                                </div>
+                                    <div class="row g-2 align-items-center mb-3 pb-2 border-bottom">
+                                        <div class="col-5 text-end fw-bold">Final Amount :</div>
+                                        <div class="col-7">
+                                            <input type="number" class="form-control form-control-sm text-end bg-light fw-bold text-primary calc-main" id="txtFinal" readonly value="0.00">
+                                        </div>
+                                    </div>
 
-                                <div class="row g-2 align-items-center mb-3 pb-2 border-bottom">
-                                    <div class="col-5 text-end fw-bold">Advance :</div>
-                                    <div class="col-7"><input type="number" class="form-control form-control-sm text-end bg-light fw-bold calc-main" id="txtAdvance" readonly value="0.00"></div>
-                                </div>
+                                    <div class="row g-2 align-items-center mb-2">
+                                        <div class="col-5 text-end">Cash :</div>
+                                        <div class="col-7">
+                                            <input type="number" class="form-control form-control-sm text-end calc-main" id="txtCash" value="0.00">
+                                        </div>
+                                    </div>
 
-                                <div class="row g-2 align-items-center mb-2">
-                                    <div class="col-12 text-end">
-                                        <div class="form-check form-check-inline me-0">
-                                            <input class="form-check-input" type="checkbox" id="chkPaidByParty">
-                                            <label class="form-check-label" for="chkPaidByParty">Is Payment Paid By Party?</label>
+                                    <div class="row g-2 align-items-center mb-2">
+                                        <div class="col-5 text-end">Cheque 1 Amount :</div>
+                                        <div class="col-7">
+                                            <input type="number" class="form-control form-control-sm text-end calc-main" id="txtChq1Amt" value="0.00">
+                                        </div>
+                                    </div>
+
+                                    <div class="row g-2 align-items-center mb-2">
+                                        <div class="col-5 text-end">Cheque 1 No :</div>
+                                        <div class="col-7">
+                                            <input type="text" class="form-control form-control-sm" id="txtChq1No">
+                                        </div>
+                                    </div>
+
+                                    <div class="row g-2 align-items-center mb-2">
+                                        <div class="col-5 text-end">Cheque 1 Date :</div>
+                                        <div class="col-7">
+                                            <input type="date" class="form-control form-control-sm" id="txtChq1Date">
+                                        </div>
+                                    </div>
+
+                                    <div class="row g-2 align-items-center mb-2">
+                                        <div class="col-5 text-end">Cheque 2 Amount :</div>
+                                        <div class="col-7">
+                                            <input type="number" class="form-control form-control-sm text-end calc-main" id="txtChq2Amt" value="0.00">
+                                        </div>
+                                    </div>
+
+                                    <div class="row g-2 align-items-center mb-2">
+                                        <div class="col-5 text-end">Cheque 2 No :</div>
+                                        <div class="col-7">
+                                            <input type="text" class="form-control form-control-sm" id="txtChq2No">
+                                        </div>
+                                    </div>
+
+                                    <div class="row g-2 align-items-center mb-2">
+                                        <div class="col-5 text-end">Cheque 2 Date :</div>
+                                        <div class="col-7">
+                                            <input type="date" class="form-control form-control-sm" id="txtChq2Date">
+                                        </div>
+                                    </div>
+
+                                    <div class="row g-2 align-items-center mb-3 pb-2 border-bottom">
+                                        <div class="col-5 text-end fw-bold">Advance :</div>
+                                        <div class="col-7">
+                                            <input type="number" class="form-control form-control-sm text-end bg-light fw-bold calc-main" id="txtAdvance" readonly value="0.00">
+                                        </div>
+                                    </div>
+
+                                    <div class="row g-2 mb-3">
+                                        <div class="col-12 text-end">
+                                            <div class="form-check d-inline-flex align-items-center gap-2 mb-0">
+                                                <input class="form-check-input" type="checkbox" id="chkPaidByParty">
+                                                <label class="form-check-label" for="chkPaidByParty">Is Payment Paid By Party?</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row g-2 align-items-center mb-2">
+                                        <div class="col-5 text-end fw-bold">Balance :</div>
+                                        <div class="col-7">
+                                            <input type="number" class="form-control form-control-sm text-end bg-light fw-bold text-danger calc-main" id="txtBalance" readonly value="0.00">
+                                        </div>
+                                    </div>
+
+                                    <div class="row g-2 align-items-center mb-0">
+                                        <div class="col-5 text-end">Paid By Party :</div>
+                                        <div class="col-7">
+                                            <input type="number" class="form-control form-control-sm text-end bg-light calc-main" id="txtPaidByParty" readonly value="0.00">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Row 2 : Remarks + Balance Details -->
+                    <div class="row g-3 align-items-start mt-1">
+                        <div class="col-xl-8">
+                            <div class="card">
+                                <div class="card-header py-2">
+                                    <h6 class="mb-0">Remarks</h6>
+                                </div>
+                                <div class="card-body">
+                                    <textarea class="form-control" id="txtRemarks" rows="6"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-4">
+                            <div class="card">
+                                <div class="card-header py-2">
+                                    <h6 class="mb-0">Balance Details</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row g-2 align-items-center mb-2">
+                                        <div class="col-5 text-end">Balance Cheque Amt :</div>
+                                        <div class="col-7">
+                                            <input type="number" class="form-control form-control-sm text-end" id="txtBalChqAmt" value="0.00">
+                                        </div>
+                                    </div>
+
+                                    <div class="row g-2 align-items-center mb-2">
+                                        <div class="col-5 text-end">Balance Cheque No :</div>
+                                        <div class="col-7">
+                                            <input type="text" class="form-control form-control-sm" id="txtBalChqNo">
+                                        </div>
+                                    </div>
+
+                                    <div class="row g-2 align-items-center mb-0">
+                                        <div class="col-5 text-end">Balance Cheque Date :</div>
+                                        <div class="col-7">
+                                            <input type="date" class="form-control form-control-sm" id="txtBalChqDate">
                                         </div>
                                     </div>
                                 </div>
-
-                                <div class="row g-2 align-items-center mb-1">
-                                    <div class="col-5 text-end fw-bold">Balance :</div>
-                                    <div class="col-7"><input type="number" class="form-control form-control-sm text-end bg-light fw-bold text-danger calc-main" id="txtBalance" readonly value="0.00"></div>
-                                </div>
-                                <div class="row g-2 align-items-center mb-1">
-                                    <div class="col-5 text-end">Paid By Party :</div>
-                                    <div class="col-7"><input type="number" class="form-control form-control-sm text-end bg-light calc-main" id="txtPaidByParty" readonly value="0.00"></div>
-                                </div>
-                            </div>
-
-                            <div class="card bg-white shadow-sm p-3">
-                                <h6 class="border-bottom pb-2 mb-3 text-secondary">Balance Details</h6>
-                                <div class="row g-2 align-items-center mb-1">
-                                    <div class="col-5 text-end">Balance Cheque Amt :</div>
-                                    <div class="col-7"><input type="number" class="form-control form-control-sm text-end" id="txtBalChqAmt" value="0.00"></div>
-                                </div>
-                                <div class="row g-2 align-items-center mb-1">
-                                    <div class="col-5 text-end">Balance Cheque No :</div>
-                                    <div class="col-7"><input type="text" class="form-control form-control-sm" id="txtBalChqNo"></div>
-                                </div>
-                                <div class="row g-2 align-items-center mb-1">
-                                    <div class="col-5 text-end">Balance Cheque Date :</div>
-                                    <div class="col-7"><input type="date" class="form-control form-control-sm" id="txtBalChqDate"></div>
-                                </div>
                             </div>
                         </div>
                     </div>
+
                 </form>
             </div>
         </div>
