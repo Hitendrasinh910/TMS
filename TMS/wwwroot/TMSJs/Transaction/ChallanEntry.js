@@ -155,16 +155,18 @@ function bindEvents() {
 async function loadDropdownData() {
     try {
         const partyResponse = await apiFetch(`/api/master/party-account/get-all`);
+        const consigneeResponse = await apiFetch(`/api/master/party-account/get-all-consignee`);
         const truckResponse = await apiFetch(`/api/master/truck/get-all`);
         const billResponse = await apiFetch(`/api/transaction/bill/get-all`);
         const lrResponse = await apiFetch(`/api/transaction/lr/get-all`);
 
         const partyJson = await partyResponse.json();
+        const consigneeJson = await consigneeResponse.json();
         const truckJson = await truckResponse.json();
         const billJson = await billResponse.json();
         const lrJson = await lrResponse.json();
 
-        populateDropdownHtml(DOM.consignee(), partyJson, "idPartyAccount", "partyName", "-- Select Consignee --");
+        populateDropdownHtml(DOM.consignee(), consigneeJson, "idPartyAccount", "partyName", "-- Select Consignee --");
         populateDropdownHtml(DOM.transporter(), partyJson, "idPartyAccount", "partyName", "-- Select Transporter --");
         populateDropdownHtml(DOM.truck(), truckJson, "idTruck", "truckNumber", "-- Select Truck --");
         populateDropdownHtml(DOM.bill(), billJson, "idBill", "billNo", "-- Select Bill No --");

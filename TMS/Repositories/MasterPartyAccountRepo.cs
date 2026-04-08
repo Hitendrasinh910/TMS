@@ -29,6 +29,21 @@ namespace TMS.Repositories
             }
         }
 
+        public async Task<IEnumerable<MasterPartyAccount>> GetByAccountTypeAsync(string type)
+        {
+            try
+            {
+                var param = new DynamicParameters();
+                param.Add("@AccountType", type);
+                return await _dapper.QueryAsync<MasterPartyAccount>("usp_Master_PartyAccount_SelectByAccountType", param);
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex, "Error in PartyAccountRepo.GetByAccountTypeAsync");
+                return Enumerable.Empty<MasterPartyAccount>();
+            }
+        }
+
         public async Task<int> GetSrNoAsync()
         {
             try

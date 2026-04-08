@@ -27,6 +27,20 @@ namespace TMS.Controllers.API
             return Ok(ApiResponse<IEnumerable<MasterPartyAccount>>.SuccessResponse("Party accounts loaded successfully", accounts));
         }
 
+        [HttpGet("get-all-consignor")]
+        public async Task<IActionResult> GetAllConsignor()
+        {
+            var accounts = await _partyAccountService.GetByAccountTypeAsync("consignor");
+            return Ok(ApiResponse<IEnumerable<MasterPartyAccount>>.SuccessResponse("Party accounts loaded successfully", accounts));
+        }
+
+        [HttpGet("get-all-consignee")]
+        public async Task<IActionResult> GetAllConsignee()
+        {
+            var accounts = await _partyAccountService.GetByAccountTypeAsync("consignee");
+            return Ok(ApiResponse<IEnumerable<MasterPartyAccount>>.SuccessResponse("Party accounts loaded successfully", accounts));
+        }
+
         [HttpGet("get-all-account-type")]
         public async Task<IActionResult> GetAllAccountType()
         {

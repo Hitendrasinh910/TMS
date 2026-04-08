@@ -128,8 +128,10 @@ async function fetchLRNo() {
 // ======================================================
 async function loadDropdowns() {
     try {
-        const [partyRes, truckRes, stateRes, cityRes] = await Promise.all([
+        const [partyRes, consignorRes, consigneeRes, truckRes, stateRes, cityRes] = await Promise.all([
             apiFetch(`${API_PARTY}/get-all`).then(r => r.json()),
+            apiFetch(`${API_PARTY}/get-all-consignor`).then(r => r.json()),
+            apiFetch(`${API_PARTY}/get-all-consignee`).then(r => r.json())  ,
             apiFetch(`${API_TRUCK}/get-all`).then(r => r.json()),
             apiFetch(`${API_STATE}/get-all`).then(r => r.json()),
             apiFetch(`${API_CITY}/get-all`).then(r => r.json())
@@ -137,8 +139,8 @@ async function loadDropdowns() {
 
         if (partyRes.success) partyData = partyRes.data; // Cache for address lookup
 
-        populateDropdown(DOM.consignor(), partyRes, "idPartyAccount", "partyName", "-- Select Consignor --");
-        populateDropdown(DOM.consignee(), partyRes, "idPartyAccount", "partyName", "-- Select Consignee --");
+        populateDropdown(DOM.consignor(), consignorRes, "idPartyAccount", "partyName", "-- Select Consignor --");
+        populateDropdown(DOM.consignee(), consigneeRes, "idPartyAccount", "partyName", "-- Select Consignee --");
         populateDropdown(DOM.billTo(), partyRes, "idPartyAccount", "partyName", "-- Select Bill To --");
         populateDropdown(DOM.truck(), truckRes, "idTruck", "truckNumber", "-- Select Truck --");
 

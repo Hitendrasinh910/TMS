@@ -235,3 +235,17 @@ BEGIN
 END
 GO
 */
+
+// 09/04/2026
+/*
+ Create PROCEDURE [dbo].[usp_Master_PartyAccount_SelectByAccountType] 
+	@AccountType nvarchar(50) = null
+AS BEGIN 
+    SET NOCOUNT ON; 
+    SELECT p.*, ma.AccountType
+    FROM dbo.Master_PartyAccount p 
+	LEFT JOIN dbo.Master_AccountType ma ON p.IDAccountType = ma.IDAccountType 
+    WHERE p.IsDeleted = 0 AND ma.AccountType = @AccountType
+    ORDER BY p.PartyName; 
+END
+*/

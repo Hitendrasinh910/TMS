@@ -14,6 +14,7 @@ namespace TMS.Services
         }
 
         public async Task<IEnumerable<MasterPartyAccount>> GetAllAsync() => await _partyAccountRepo.GetAllAsync();
+        public async Task<IEnumerable<MasterPartyAccount>> GetByAccountTypeAsync(string type) => await _partyAccountRepo.GetByAccountTypeAsync(type);
         public async Task<int> GetSrNo() => await _partyAccountRepo.GetSrNoAsync();
         public async Task<IEnumerable<MasterAccountType>> GetAllAccountTypeAsync() => await _partyAccountRepo.GetAllAccountTypeAsync();  // Account Type
         public async Task<IEnumerable<MasterBalanceType>> GetAllBalanceTypeAsync() => await _partyAccountRepo.GetAllBalanceTypeAsync(); // Balance Type

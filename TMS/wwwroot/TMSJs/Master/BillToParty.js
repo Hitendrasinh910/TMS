@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         btnCreate.classList.toggle("disabled", !hasAddRight);
     }
 
-    await loadParties();
+    await loadDropdowns();
     await bindTable();
 
     entryModal = new bootstrap.Modal(DOM.modal(), { backdrop: "static" });
@@ -68,26 +68,45 @@ async function fetchNextAccountSrNo() {
 // ======================================================
 // LOAD DROPDOWNS
 // ======================================================
-async function loadParties() {
+async function loadDropdowns() {
     try {
-        const res = await apiFetch(`${API_PARTY}/get-all`);
-        const json = await res.json();
+        //const res = await apiFetch(`${API_PARTY}/get-all`);
+        //const json = await res.json();
 
-        if (json.success && json.data) {
-            let options = '<option value="">-- Select Party --</option>';
-            json.data.forEach(p => {
-                options += `<option value="${p.idPartyAccount}">${escapeHtml(p.partyName)}</option>`;
-            });
+        //if (json.success && json.data) {
+        //    let options = '<option value="">-- Select Party --</option>';
+        //    json.data.forEach(p => {
+        //        options += `<option value="${p.idPartyAccount}">${escapeHtml(p.partyName)}</option>`;
+        //    });
 
-            // Populate all 3 dropdowns with the exact same party data
-            DOM.consignor().innerHTML = options;
-            DOM.consignee().innerHTML = options;
-            DOM.billTo().innerHTML = options;
+        //    // Populate all 3 dropdowns with the exact same party data
+        //    DOM.consignor().innerHTML = options;
+        //    DOM.consignee().innerHTML = options;
+        //    DOM.billTo().innerHTML = options;
 
-            $('.default-select, select').selectpicker('refresh');
-        }
+        //}
+        const [allPartyRes, consignorRes, consigneeRes] = await Promise.all([
+            apiFetch(`${API_PARTY}/get-all`).then(r => r.json()),
+            apiFetch(`${API_PARTY}/get-all-consignor`).then(r => r.json()),
+            apiFetch(`${API_PARTY}/get-all-consignee`).then(r => r.json())  
+        ]);
+
+        populateDropdown(DOM.billTo(), allPartyRes, "idPartyAccount", "partyName", "-- Select Party --");
+        populateDropdown(DOM.consignor(), consignorRes, "idPartyAccount", "partyName", "-- Select Consignor --");
+        populateDropdown(DOM.consignee(), consigneeRes, "idPartyAccount", "partyName", "-- Select Consignee --");
+
+        $('.form-select, select').selectpicker('refresh');
     } catch (err) {
         console.error("Error loading parties:", err);
+    }
+}
+
+function populateDropdown(selectElement, responseJson, valueProp, textProp, defaultText) {
+    selectElement.innerHTML = `<option value="">${defaultText}</option>`;
+    if (responseJson && responseJson.success && responseJson.data) {
+        responseJson.data.forEach(item => {
+            selectElement.innerHTML += `<option value="${item[valueProp]}">${escapeHtml(item[textProp])}</option>`;
+        });
     }
 }
 
