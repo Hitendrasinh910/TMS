@@ -14,7 +14,7 @@ const DOM = {
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
-    if (!guardPageAccess("Truck")) return;
+    if (!guardPageAccess("Master Truck")) return;
 
     const btnCreate = document.getElementById("btnCreateNewTruck");
 

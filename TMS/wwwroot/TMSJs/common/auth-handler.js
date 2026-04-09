@@ -1,31 +1,31 @@
 ﻿// -----------------------------------
 // PAGE RIGHTS CHECK
 // -----------------------------------
-window.guardPageAccess = function (formName) {
-    if (!formName) return true;
+//window.guardPageAccess = function (formName) {
+//    if (!formName) return true;
 
-    if (typeof hasUserRight !== "function") {
-        console.warn("hasUserRight() is not available.");
-        return true;
-    }
+//    if (typeof hasUserRight !== "function") {
+//        console.warn("hasUserRight() is not available.");
+//        return true;
+//    }
 
-    const allowed = hasUserRight(formName, "View");
+//    const allowed = hasUserRight(formName, "View");
 
-    if (!allowed) {
-        Swal.fire({
-            icon: "error",
-            title: "Access Denied",
-            text: "You don't have permission to view this page.",
-            confirmButtonText: "OK"
-        }).then(() => {
-            window.location.href = "/Home/Index";
-        });
+//    if (!allowed) {
+//        Swal.fire({
+//            icon: "error",
+//            title: "Access Denied",
+//            text: "You don't have permission to view this page.",
+//            confirmButtonText: "OK"
+//        }).then(() => {
+//            window.location.href = "/Home/Index";
+//        });
 
-        return false;
-    }
+//        return false;
+//    }
 
-    return true;
-};
+//    return true;
+//};
 
 // -----------------------------------
 // COMMON API FETCH

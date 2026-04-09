@@ -218,7 +218,7 @@ async function saveData() {
     DOM.save().disabled = false;
 }
 
-function clearForm() {
+async function clearForm() {
     DOM.id().value = 0;
     DOM.srNo().value = "";
     DOM.consignor().value = "";
@@ -227,4 +227,8 @@ function clearForm() {
     DOM.remarks().value = "";
 
     [DOM.consignor(), DOM.consignee(), DOM.billTo()].forEach(el => el.classList.remove("is-invalid"));
+    $('.form-select, select').selectpicker('refresh');
+
+    // FIX: Re-fetch the SrNo for the new entry
+    await fetchNextAccountSrNo();
 }

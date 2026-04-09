@@ -215,9 +215,13 @@ async function saveData() {
     DOM.save().disabled = false;
 }
 
-function clearForm() {
+async function clearForm() {
     DOM.id().value = 0; DOM.receiptNo().value = ""; DOM.billAmt().value = "0.00"; DOM.outstanding().value = "0.00";
     DOM.received().value = "0.00"; DOM.tds().value = "0.00"; DOM.balance().value = "0.00"; DOM.remarks().value = "";
     DOM.date().value = new Date().toISOString().split('T')[0];
     DOM.party().value = "";
+
+    $('.form-select, select').selectpicker('refresh');
+    // FIX: Re-fetch the SrNo for the new entry
+    await fetchNextReceiptNo();
 }
