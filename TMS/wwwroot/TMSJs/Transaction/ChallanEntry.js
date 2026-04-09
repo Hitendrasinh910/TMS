@@ -71,6 +71,7 @@ const DOM = {
 // INITIALIZATION
 // ======================================================
 document.addEventListener("DOMContentLoaded", async function () {
+    if (!guardPageAccess("Challan")) return;
 
     // 1. Set default date
     const todayString = new Date().toISOString().split('T')[0];

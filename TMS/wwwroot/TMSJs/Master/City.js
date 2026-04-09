@@ -14,6 +14,7 @@ const DOM = {
 
 document.addEventListener("DOMContentLoaded", async () => {
 
+    if (!guardPageAccess("City")) return;
     const btnCreate = document.getElementById("btnCreateNewCity");
 
     if (btnCreate) {

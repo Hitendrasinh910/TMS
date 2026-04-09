@@ -59,6 +59,8 @@ async function loadUserAccounts() {
 
             DOM.userDropdown().innerHTML = optionsHtml;
         }
+
+        $('.form-select, select').selectpicker('refresh');
     }
     catch (err) {
         console.error("Failed to load users for dropdown", err);

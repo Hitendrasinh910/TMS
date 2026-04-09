@@ -26,6 +26,7 @@ const DOM = {
 // INIT
 // ======================================================
 document.addEventListener("DOMContentLoaded", async () => {
+    if (!guardPageAccess("Driver")) return;
 
     const btnCreate = document.getElementById("btnCreateNewDriver");
 

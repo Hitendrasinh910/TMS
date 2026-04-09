@@ -24,6 +24,8 @@ const DOM = {
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
+    if (!guardPageAccess("Payment")) return;
+
     const btnCreate = document.getElementById("btnCreateNewPayment");
 
     if (btnCreate) {

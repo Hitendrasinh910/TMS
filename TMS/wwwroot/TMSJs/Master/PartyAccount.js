@@ -44,6 +44,8 @@ const DOM = {
 // INIT
 // ======================================================
 document.addEventListener("DOMContentLoaded", async () => {
+    if (!guardPageAccess("Party Account")) return;
+
     const btnCreate = document.getElementById("btnCreateNewPartyAccount");
 
     if (btnCreate) {

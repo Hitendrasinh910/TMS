@@ -47,6 +47,7 @@ const DOM = {
 // INIT
 // ======================================================
 document.addEventListener("DOMContentLoaded", async () => {
+    if (!guardPageAccess("Bill")) return;
 
     // Set default date to today
     const today = new Date().toISOString().split('T')[0];

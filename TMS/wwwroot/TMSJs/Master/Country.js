@@ -20,6 +20,8 @@ const DOM = {
 // INIT
 // ======================================================
 document.addEventListener("DOMContentLoaded", async () => {
+    if (!guardPageAccess("Country")) return;
+
     const btnCreate = document.getElementById("btnCreateNewCountry");
 
     if (btnCreate) {

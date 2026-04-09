@@ -22,6 +22,9 @@ const DOM = {
 // INIT
 // ======================================================
 document.addEventListener("DOMContentLoaded", async () => {
+
+    if (!guardPageAccess("State")) return;
+
     const btnCreate = document.getElementById("btnCreateNewState");
 
     if (btnCreate) {

@@ -24,6 +24,7 @@ const DOM = {
 // INIT
 // ======================================================
 document.addEventListener("DOMContentLoaded", async () => {
+    if (!guardPageAccess("User")) return;
 
     const btnCreate = document.getElementById("btnCreateNewUser");
 

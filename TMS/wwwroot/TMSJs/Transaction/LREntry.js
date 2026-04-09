@@ -61,6 +61,8 @@ const DOM = {
 // INIT
 // ======================================================
 document.addEventListener("DOMContentLoaded", async () => {
+    if (!guardPageAccess("LR")) return;
+
     // Set default dates
     const today = new Date().toISOString().split('T')[0];
     DOM.lrDate().value = today;

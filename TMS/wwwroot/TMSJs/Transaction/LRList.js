@@ -15,6 +15,8 @@ const DOM = {
 // INIT
 // ======================================================
 document.addEventListener("DOMContentLoaded", async () => {
+    if (!guardPageAccess("LR")) return;
+
     // 1. Check permissions and disable the Add button if necessary
     const btnCreate = document.getElementById("btnCreateNewLR");
     if (btnCreate && !hasUserRight("LR", "Add")) {

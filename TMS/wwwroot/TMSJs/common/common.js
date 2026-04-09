@@ -715,3 +715,15 @@ function formatDateShort(dateValue) {
         year: "numeric"
     });
 }
+
+function guardPageAccess(formName) {
+    if (!hasUserRight(formName, "View")) {
+        Swal.fire("Access Denied", "You don't have permission to view this page.", "error")
+            .then(() => {
+                window.location.href = "/Home/Index";
+            });
+
+        return false;
+    }
+    return true;
+}

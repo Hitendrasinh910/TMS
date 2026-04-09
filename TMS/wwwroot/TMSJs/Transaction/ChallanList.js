@@ -15,6 +15,8 @@ const DOM = {
 // INITIALIZATION
 // ======================================================
 document.addEventListener("DOMContentLoaded", async function () {
+    if (!guardPageAccess("Challan")) return;
+
     const btnCreate = document.getElementById("btnCreateNewChallan");
 
     if (btnCreate) {

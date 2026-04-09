@@ -17,7 +17,7 @@
                 <div class="row mb-4 bg-white p-3 border rounded">
                     <div class="col-md-6">
                         <label class="form-label fw-bold">Select User Account <span class="text-danger">*</span></label>
-                        <select class="form-select form-select-lg" id="ddlUser">
+                        <select class="form-control form-select" id="ddlUser">
                             <option value="">-- Please Select a User --</option>
                         </select>
                     </div>
@@ -30,21 +30,33 @@
                         <thead class="table-primary text-center">
                             <tr>
                                 <th style="width: 40%; text-align: left;">Form / Module Name</th>
-                                <th style="width: 15%;">
-                                    View <br />
-                                    <input type="checkbox" class="form-check-input mt-1" id="chkAllView">
+
+                                <th style="width: 15%;" class="text-center align-middle">
+                                    <div class="d-flex flex-column align-items-center">
+                                        <span>View</span>
+                                        <input type="checkbox" class="form-check-input mt-1" id="chkAllView">
+                                    </div>
                                 </th>
-                                <th style="width: 15%;">
-                                    Add <br />
-                                    <input type="checkbox" class="form-check-input mt-1" id="chkAllAdd">
+
+                                <th style="width: 15%;" class="text-center align-middle">
+                                    <div class="d-flex flex-column align-items-center">
+                                        <span>Add</span>
+                                        <input type="checkbox" class="form-check-input mt-1" id="chkAllAdd">
+                                    </div>
                                 </th>
-                                <th style="width: 15%;">
-                                    Update <br />
-                                    <input type="checkbox" class="form-check-input mt-1" id="chkAllUpdate">
+
+                                <th style="width: 15%;" class="text-center align-middle">
+                                    <div class="d-flex flex-column align-items-center">
+                                        <span>Update</span>
+                                        <input type="checkbox" class="form-check-input mt-1" id="chkAllUpdate">
+                                    </div>
                                 </th>
-                                <th style="width: 15%;">
-                                    Delete <br />
-                                    <input type="checkbox" class="form-check-input mt-1" id="chkAllDelete">
+
+                                <th style="width: 15%;" class="text-center align-middle">
+                                    <div class="d-flex flex-column align-items-center">
+                                        <span>Delete</span>
+                                        <input type="checkbox" class="form-check-input mt-1" id="chkAllDelete">
+                                    </div>
                                 </th>
                             </tr>
                         </thead>

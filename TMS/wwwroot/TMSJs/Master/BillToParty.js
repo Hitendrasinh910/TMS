@@ -26,6 +26,8 @@ const DOM = {
 // INIT
 // ======================================================
 document.addEventListener("DOMContentLoaded", async () => {
+    if (!guardPageAccess("Bill To Party")) return;
+
     const btnCreate = document.getElementById("btnCreateNewBillToParty");
 
     if (btnCreate) {
