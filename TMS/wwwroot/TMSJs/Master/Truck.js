@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const btnCreate = document.getElementById("btnCreateNewTruck");
 
     if (btnCreate) {
-        const hasAddRight = hasUserRight("Truck", "Add");
+        const hasAddRight = hasUserRight("Master Truck", "Add");
         btnCreate.classList.toggle("disabled", !hasAddRight);
         //if (!hasAddRight) btnCreate.removeAttribute("href");
     }
@@ -36,8 +36,8 @@ async function bindTable() {
     if ($.fn.DataTable.isDataTable(DOM.table())) $(DOM.table()).DataTable().destroy();
     DOM.tbody().innerHTML = "";
 
-    const canEdit = hasUserRight("Truck", "Update");
-    const canDelete = hasUserRight("Truck", "Delete");
+    const canEdit = hasUserRight("Master Truck", "Update");
+    const canDelete = hasUserRight("Master Truck", "Delete");
 
     json.data.forEach(d => {
         const tr = document.createElement("tr");

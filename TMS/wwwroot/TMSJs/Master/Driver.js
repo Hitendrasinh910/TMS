@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const btnCreate = document.getElementById("btnCreateNewDriver");
 
     if (btnCreate) {
-        const hasAddRight = hasUserRight("Driver", "Add");
+        const hasAddRight = hasUserRight("Master Driver", "Add");
         btnCreate.classList.toggle("disabled", !hasAddRight);
     }
     await bindTable();
@@ -62,8 +62,8 @@ async function bindTable() {
 
         DOM.tbody().innerHTML = "";
 
-        const canEdit = hasUserRight("Driver", "Update");
-        const canDelete = hasUserRight("Driver", "Delete");
+        const canEdit = hasUserRight("Master Driver", "Update");
+        const canDelete = hasUserRight("Master Driver", "Delete");
 
         json.data.forEach(d => {
             const tr = document.createElement("tr");
